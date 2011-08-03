@@ -15,16 +15,21 @@ from graphicItems.sequence import Sequence
 class Polonator(QMainWindow, ui_hiddenTabPolonator.Ui_MainWindow):
     def __init__(self, parent=None):
         super(Polonator, self).__init__(parent)
-
-        self.baseSeqL = []
         self.setupUi(self)
+
+
+        self.baseClassL = []
+        self.sortBaseL = []
+        self.sortedCyclesL = []
+        self.sortCycleD = {}
+
+
         self.seqScene = QGraphicsScene()
         self.seqScene.setSceneRect(QRectF(0, 0, self.sequenceGraphicsView.width(), self.sequenceGraphicsView.height()))
-
         self.polonatorCycleListVector = []
 
-        self.currentDir = os.getcwd()
 
+        self.currentDir = os.getcwd()
         try:
             os.mkdir(self.currentDir+"/.config")
             f = file(self.currentDir+"/.config/.polGV.cfg", 'w')
@@ -33,14 +38,9 @@ class Polonator(QMainWindow, ui_hiddenTabPolonator.Ui_MainWindow):
         except:
             pass
 
-
-
         self.setContextMenuPolicy(Qt.CustomContextMenu)
-
         self.sequenceGraphicsView.setDragMode(QGraphicsView.RubberBandDrag)
         self.sequenceGraphicsView.setScene(self.seqScene)
-
-
         self.sequenceGraphicsView.mouseReleaseEvent = self.graphicsViewMouseRelease
       #  self.sequenceGraphicsView.mousePressEvent = self.graphicsViewMousePress
         self.sequenceGraphicsView.held = True
@@ -57,10 +57,15 @@ class Polonator(QMainWindow, ui_hiddenTabPolonator.Ui_MainWindow):
         self.helixWidget.resize(self.frame.frameRect().width(), self.frame.frameRect().height())
         """
 
-        self.tabWidget_4.removeTab(1)
-        
-        self.actionPro_Mode.triggered.connect(self.proMode)
+   #     self.cycleTable.setHorizontalHeader(QHeaderView(Qt.Horizontal))
+   #     self.cycleTable.setColumnWidth(1,2)
 
+     #   self.tWI = QTableWidgetItem(QString('Hello'), QTableWidgetItem.Type)
+
+       # self.cycleTable.setItem(1,1, self.tWI)
+
+        self.tabWidget_4.removeTab(1)
+        self.actionPro_Mode.triggered.connect(self.proMode)
         self.addSequence()        
 
 
@@ -68,8 +73,72 @@ class Polonator(QMainWindow, ui_hiddenTabPolonator.Ui_MainWindow):
         self.sequenceGraphicsView.held = True    
 
     def graphicsViewMouseRelease(self, event):
-        self.sequenceGraphicsView.held = not(self.sequenceGraphicsView.held)
 
+        #Create cycle name from base
+        sortCycleL = []
+        for base in self.sortBaseL:
+            cycle = base.primer.primerLetter
+            if base.parentItem().pos().x() > base.primer.pos().x():
+                cycle = cycle + 'P'
+            else:
+                cycle = cycle + 'M'
+            cycle = cycle + base.position
+
+            self.sortCycleD.update({cycle : base})
+            sortCycleL.append(cycle)
+
+        #Create a plus list and a minus list
+        plusL = []
+        minusL = []
+        maxPos = 1
+
+        cycleCount = 0
+        for cycle in sortCycleL:
+            if cycle[1] == 'P':
+                plusL.append(cycle)
+            if cycle[1] == 'M':
+                minusL.append(cycle)
+
+        #Sort Plus
+        sortL = []
+        for cycle in plusL:
+            pos = int(cycle[2])
+            if sortL.count(pos) == 0:
+                sortL.append(pos)
+        sortL.sort()
+        sortL.reverse()
+        for num in sortL:
+            for cycle in plusL:
+                pos = int(cycle[2])
+                if pos == num:
+                    self.sortedCyclesL.append(cycle)
+        
+        #Sort Minus
+        sortL = []
+        for cycle in minusL:
+            pos = int(cycle[2])
+            if sortL.count(pos) == 0:
+                sortL.append(pos)
+        sortL.sort()
+        sortL.reverse()
+        for num in sortL:
+            for cycle in minusL:
+                pos = int(cycle[2])
+                if pos == num:
+                    self.sortedCyclesL.append(cycle)
+
+
+        for cycle in self.sortedCyclesL:
+            self.baseClassL.append(self.sortCycleD[cycle])
+
+
+        self.sortedCyclesL = []
+        self.sortCycleD = {}
+
+        #Empty list without jeapordizing data structure location
+        while len(self.sortBaseL) != 0:
+            self.sortBaseL.pop()
+        self.updateCycleList()
 
     def addSequence(self):
         
@@ -123,7 +192,6 @@ class Polonator(QMainWindow, ui_hiddenTabPolonator.Ui_MainWindow):
         self.seqScene.setSceneRect(QRectF(0, 0, xpos, self.sequenceGraphicsView.height()))
 
     
-
     def proMode(self):
         print "PRO!"
         self.tabWidget_4.insertTab(1, self.tab_10, QString('Maintenence'))
@@ -165,10 +233,13 @@ class Polonator(QMainWindow, ui_hiddenTabPolonator.Ui_MainWindow):
 
 
 
-    def on_updateCycleList_pressed(self):
-        polonatorCycleList = []
+    def updateCycleList(self):
+
+        self.polonatorCycleListVector = []
+        self.cycleTable.clear()
+
         cycle = ''
-        for base in self.baseSeqL:
+        for base in self.baseClassL:
             cycle = base.primer.primerLetter
             if base.parentItem().pos().x() > base.primer.pos().x():
                 cycle = cycle + 'P'
@@ -176,14 +247,20 @@ class Polonator(QMainWindow, ui_hiddenTabPolonator.Ui_MainWindow):
                 cycle = cycle + 'M'
             cycle = cycle + base.position
 
-            polonatorCycleList.append(cycle)
+            self.polonatorCycleListVector.append(cycle)
 
-        polString = ''
-        for polCycle in polonatorCycleList:
-            polString = polString + polCycle+'\n'
+        row = 0
+        for cycle in self.polonatorCycleListVector:
+            setattr(self, cycle + 'Pr', QTableWidgetItem(QString(cycle[0]), QTableWidgetItem.Type))
+            setattr(self, cycle + 'D', QTableWidgetItem(QString(cycle[1]), QTableWidgetItem.Type))
+            setattr(self, cycle + 'Po', QTableWidgetItem(QString(cycle[2]), QTableWidgetItem.Type))
 
-        self.polonatorCycleEntry.setPlainText(polString)
-        polString = ''
+            self.cycleTable.setItem(row, 0, getattr(self, cycle + 'Pr'))
+            self.cycleTable.setItem(row, 1, getattr(self, cycle + 'D'))
+            self.cycleTable.setItem(row, 2, getattr(self, cycle + 'Po'))
+
+            row = row + 1
+
 
 
 

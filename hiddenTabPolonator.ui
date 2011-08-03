@@ -72,9 +72,6 @@
            </property>
           </widget>
          </item>
-         <item row="1" column="0">
-          <widget class="QTextEdit" name="polonatorCycleEntry"/>
-         </item>
          <item row="1" column="1">
           <widget class="QPushButton" name="polonatorStart">
            <property name="enabled">
@@ -90,6 +87,59 @@
            <property name="focusPolicy">
             <enum>Qt::ClickFocus</enum>
            </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QTableWidget" name="cycleTable">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="lineWidth">
+            <number>1</number>
+           </property>
+           <property name="horizontalScrollBarPolicy">
+            <enum>Qt::ScrollBarAlwaysOff</enum>
+           </property>
+           <property name="rowCount">
+            <number>10</number>
+           </property>
+           <property name="columnCount">
+            <number>3</number>
+           </property>
+           <attribute name="horizontalHeaderDefaultSectionSize">
+            <number>71</number>
+           </attribute>
+           <attribute name="horizontalHeaderMinimumSectionSize">
+            <number>71</number>
+           </attribute>
+           <row/>
+           <row/>
+           <row/>
+           <row/>
+           <row/>
+           <row/>
+           <row/>
+           <row/>
+           <row/>
+           <row/>
+           <column>
+            <property name="text">
+             <string>Primer</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>Direction</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>Position</string>
+            </property>
+           </column>
           </widget>
          </item>
         </layout>
@@ -135,7 +185,7 @@
        <enum>Qt::ScrollBarAsNeeded</enum>
       </property>
      </widget>
-     <widget class="QPushButton" name="updateCycleList">
+     <widget class="QPushButton" name="clearSelectionPB">
       <property name="geometry">
        <rect>
         <x>10</x>
@@ -145,7 +195,7 @@
        </rect>
       </property>
       <property name="text">
-       <string>Update Cycle List</string>
+       <string>Clear Selection</string>
       </property>
      </widget>
      <widget class="QComboBox" name="touchFlagCB">

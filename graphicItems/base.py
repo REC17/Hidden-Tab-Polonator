@@ -40,10 +40,12 @@ class Base(QGraphicsItem):
         if self.primer != None:
             if self.fill == self.purple:
                 self.fill = self.red
-                self.parentItem().baseSeqL.append(self)
+                self.parentItem().baseClassL.append(self)
+                self.parentItem().updateCycles()
             elif self.fill == self.red:
                 self.fill = self.purple
-                self.parentItem().baseSeqL.remove(self)
+                self.parentItem().baseClassL.remove(self)
+                self.parentItem().updateCycles()
             self.update()
 
 
@@ -71,6 +73,7 @@ class Base(QGraphicsItem):
 
 
         if change == QGraphicsItem.ItemSelectedHasChanged and self.primer != None:#self.parentItem().__class__.__name__ != 'Primer':# and self.isSelected() == False:
+            sortBaseL = []
             if self.pos().x()/12 < self.parentItem().boundingRect().width()/24:
                 self.position = str(int(1 + self.pos().x()/12))
             else:
@@ -80,10 +83,10 @@ class Base(QGraphicsItem):
          #   if self.scene().views()[0].held == True:
                 if self.fill == self.purple:
                     self.fill = self.red
-                    self.parentItem().baseSeqL.append(self)
+                    self.parentItem().sortBaseL.append(self)
                 elif self.fill == self.red:
                     self.fill = self.purple
-                    self.parentItem().baseSeqL.remove(self)
+                    self.parentItem().baseClassL.remove(self)
             self.selected = not(self.selected)
 
         self.update()

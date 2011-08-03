@@ -7,7 +7,10 @@ class Sequence(QGraphicsItem):
     def __init__(self, mainwin, sequence, position, minusPrimer, plusPrimer, parent = None):
         super(Sequence, self).__init__()
 
-        self.baseSeqL = mainwin.baseSeqL
+        self.baseClassL = mainwin.baseClassL
+        self.sortBaseL = mainwin.sortBaseL
+        self.updateCycles = mainwin.updateCycleList
+
         self.fill = QColor(100, 204, 150)
         self.seq = sequence
         self.rect = QRectF(0, 0, 12*len(self.seq), 30)
