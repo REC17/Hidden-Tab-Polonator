@@ -89,7 +89,6 @@ class seqTab:
         #  self.process_start(cmd, ['pass'], "self.process_pass()")   
         '''
     def validate(self):
-        print 'validate'
         breakAll = False
         isEmpty = True
         validateList = []
@@ -119,27 +118,57 @@ class seqTab:
                 if len(self.cycleTable.item(i, 0).text()) > 1:
                     self.seqStartPB.setEnabled(False)
                     self.warningDialog = WarningDialog(\
-                        'Expected a single letter in cell (%(i)s, %(j)s) between "A" and "Z" (not case sensative)' %{'i':str(i+1),\
-                         'j':str(j+1)}, None)
+                        'Expected a single letter between "A" and "Z" in cell\
+                        (%(i)s, 1) (not case sensitive)' %{'i':str(i+1)}, None)
                     self.warningDialog.cancelButton.hide()             
                     self.warningDialog.show()
                     self.seqStartPB.setEnabled(False)
                     breakAll = True                        
                     break
 
-                if not (ord('A') <= ord(str(self.cycleTable.item(i, 0).text())) <= ord('Z')\
-                        or ord('a') <= ord(str(self.cycleTable.item(i, 0).text())) <= ord('z')):
+                if not (ord('A') <= ord(str(self.cycleTable.item(i, 0).text()))\
+                        <= ord('Z') or\
+                        ord('a') <= ord(str(self.cycleTable.item(i, 0).text()))\
+                        <= ord('z')):
                     self.seqStartPB.setEnabled(False)
                     self.warningDialog = WarningDialog(\
-                        'Expected a single letter in cell (%(i)s, %(j)s) between "A" and "Z" (not case sensative)' %{'i':str(i+1),\
-                         'j':str(j+1)}, None)
+                        'Expected a single letter between "A" and "Z" in cell\
+                        (%(i)s, 2) (not case sensitive)' %{'i':str(i+1)}, None)
                     self.warningDialog.cancelButton.hide()             
                     self.warningDialog.show()
                     self.seqStartPB.setEnabled(False)
                     breakAll = True                        
                     break
-                
 
+                if str(self.cycleTable.item(i, 1).text()) != 'P' or\
+                        str(self.cycleTable.item(i, 1).text()) != 'p' or\
+                        str(self.cycleTable.item(i, 1).text()) != 'M' or\
+                        str(self.cycleTable.item(i, 1).text()) != 'm':
+                    self.seqStartPB.setEnabled(False)
+                    self.warningDialog = WarningDialog(\
+                        'Expected either a "P" or "M" in cell (%(i)s, 2)\
+                        (not case sensitive)'%{'i':str(i+1)}, None)
+                    self.warningDialog.cancelButton.hide()             
+                    self.warningDialog.show()
+                    self.seqStartPB.setEnabled(False)
+                    breakAll = True                        
+                    break
+
+
+                '''
+                try int(str(self.cycleTable.item(i, 2).text())):
+                    pass
+                except:
+                    self.seqStartPB.setEnabled(False)
+                    self.warningDialog = WarningDialog(\
+                        'Expected an integer in cell (%(i)s, 3)'\
+                                    %{'i':str(i+1)}, None)
+                    self.warningDialog.cancelButton.hide()             
+                    self.warningDialog.show()
+                    self.seqStartPB.setEnabled(False)
+                    breakAll = True                        
+                    break
+                '''
 
 
         if isEmpty == True:
@@ -174,7 +203,8 @@ class seqTab:
             
         """
     def clear(self):
-        self.warningDialog = WarningDialog('Are you sure that you want to clear the cycle list?', self.okClear)
+        self.warningDialog = WarningDialog('Are you sure that you want to clear\
+                                                the cycle list?', self.okClear)
         #self.warningDialog.setMessage()
         self.warningDialog.show()
 
