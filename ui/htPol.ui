@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>654</width>
-    <height>806</height>
+    <width>656</width>
+    <height>781</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -20,8 +20,26 @@
       <x>9</x>
       <y>10</y>
       <width>641</width>
-      <height>731</height>
+      <height>701</height>
      </rect>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>0</width>
+      <height>0</height>
+     </size>
+    </property>
+    <property name="sizeIncrement">
+     <size>
+      <width>0</width>
+      <height>0</height>
+     </size>
+    </property>
+    <property name="baseSize">
+     <size>
+      <width>0</width>
+      <height>0</height>
+     </size>
     </property>
     <property name="font">
      <font>
@@ -30,25 +48,111 @@
      </font>
     </property>
     <property name="currentIndex">
-     <number>3</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="sequenceTab">
      <attribute name="title">
       <string>Sequence</string>
      </attribute>
-     <widget class="QWidget" name="layoutWidget">
+     <widget class="QGraphicsView" name="sequenceGraphicsView">
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>90</y>
+        <y>440</y>
         <width>611</width>
-        <height>401</height>
+        <height>101</height>
        </rect>
       </property>
-      <layout class="QVBoxLayout" name="verticalLayout_15">
+      <property name="verticalScrollBarPolicy">
+       <enum>Qt::ScrollBarAlwaysOff</enum>
+      </property>
+      <property name="horizontalScrollBarPolicy">
+       <enum>Qt::ScrollBarAsNeeded</enum>
+      </property>
+     </widget>
+     <widget class="QComboBox" name="touchFlagCB">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>590</y>
+        <width>611</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>11</pointsize>
+       </font>
+      </property>
+      <item>
+       <property name="text">
+        <string>Operate Polonator via Graphical Interface</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Operate Polonator via Touch Sensor</string>
+       </property>
+      </item>
+     </widget>
+     <widget class="QWidget" name="layoutWidget_3">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>10</y>
+        <width>611</width>
+        <height>71</height>
+       </rect>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_3">
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+       <property name="horizontalSpacing">
+        <number>6</number>
+       </property>
+       <item row="0" column="0">
+        <widget class="QPushButton" name="abortButton">
+         <property name="font">
+          <font>
+           <pointsize>11</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Abort All Processes</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QRadioButton" name="includeHomeAxisRB">
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Include Homing Axis</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="">
+      <property name="geometry">
+       <rect>
+        <x>11</x>
+        <y>80</y>
+        <width>611</width>
+        <height>357</height>
+       </rect>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout_15">
        <item>
-        <layout class="QGridLayout" name="gridLayout_6">
-         <item row="0" column="0">
+        <layout class="QVBoxLayout" name="verticalLayout_13">
+         <item>
           <widget class="QLabel" name="EnterCyclesHerelabel_2">
            <property name="font">
             <font>
@@ -66,42 +170,28 @@
            </property>
           </widget>
          </item>
-         <item row="0" column="2">
-          <widget class="QLabel" name="Executinglabel_2">
-           <property name="font">
-            <font>
-             <pointsize>10</pointsize>
-            </font>
-           </property>
-           <property name="text">
-            <string>Executing</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="1">
-          <widget class="QPushButton" name="seqStartPB">
+         <item>
+          <widget class="QTableWidget" name="cycleTable">
            <property name="enabled">
             <bool>true</bool>
            </property>
-           <property name="text">
-            <string>Start</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="2">
-          <widget class="QTextEdit" name="polonatorCycleList">
-           <property name="focusPolicy">
-            <enum>Qt::ClickFocus</enum>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="0">
-          <widget class="QTableWidget" name="cycleTable">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>325</height>
+            </size>
+           </property>
+           <property name="baseSize">
+            <size>
+             <width>0</width>
+             <height>0</height>
+            </size>
            </property>
            <property name="lineWidth">
             <number>1</number>
@@ -111,6 +201,12 @@
            </property>
            <property name="horizontalScrollBarPolicy">
             <enum>Qt::ScrollBarAlwaysOff</enum>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>0</width>
+             <height>0</height>
+            </size>
            </property>
            <property name="rowCount">
             <number>10</number>
@@ -154,98 +250,118 @@
         </layout>
        </item>
        <item>
-        <widget class="QPushButton" name="cycleEntryValidatePB">
-         <property name="text">
-          <string>Validate</string>
-         </property>
-        </widget>
+        <layout class="QVBoxLayout" name="verticalLayout_14">
+         <item>
+          <widget class="QLabel" name="label_3">
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="seqStartPB">
+           <property name="enabled">
+            <bool>true</bool>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>160</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>11</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>Start</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="cycleEntryValidatePB">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>160</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>11</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>Validate</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout_12">
+         <item>
+          <widget class="QLabel" name="Executinglabel_2">
+           <property name="font">
+            <font>
+             <pointsize>10</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>Executing</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QTextEdit" name="polonatorCycleList">
+           <property name="focusPolicy">
+            <enum>Qt::ClickFocus</enum>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </item>
       </layout>
      </widget>
-     <widget class="QGraphicsView" name="sequenceGraphicsView">
+     <widget class="QWidget" name="">
       <property name="geometry">
        <rect>
-        <x>10</x>
-        <y>500</y>
+        <x>11</x>
+        <y>550</y>
         <width>611</width>
-        <height>101</height>
+        <height>30</height>
        </rect>
       </property>
-      <property name="verticalScrollBarPolicy">
-       <enum>Qt::ScrollBarAlwaysOff</enum>
-      </property>
-      <property name="horizontalScrollBarPolicy">
-       <enum>Qt::ScrollBarAsNeeded</enum>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="clearSelectionPB">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>610</y>
-        <width>611</width>
-        <height>31</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Clear Selection</string>
-      </property>
-     </widget>
-     <widget class="QComboBox" name="touchFlagCB">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>650</y>
-        <width>611</width>
-        <height>31</height>
-       </rect>
-      </property>
-      <item>
-       <property name="text">
-        <string>Operate Polonator via Graphical Interface</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>Operate Polonator via Touch Sensor</string>
-       </property>
-      </item>
-     </widget>
-     <widget class="QWidget" name="layoutWidget_3">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>10</y>
-        <width>611</width>
-        <height>66</height>
-       </rect>
-      </property>
-      <layout class="QGridLayout" name="gridLayout_3">
-       <property name="leftMargin">
-        <number>0</number>
-       </property>
-       <property name="bottomMargin">
-        <number>0</number>
-       </property>
-       <property name="horizontalSpacing">
-        <number>6</number>
-       </property>
-       <item row="0" column="0">
-        <widget class="QPushButton" name="abortButton">
+      <layout class="QHBoxLayout" name="horizontalLayout_16">
+       <item>
+        <widget class="QPushButton" name="clearSelectionPB">
          <property name="text">
-          <string>Abort All Processes</string>
+          <string>Clear Selection</string>
          </property>
         </widget>
        </item>
-       <item row="1" column="0">
-        <widget class="QRadioButton" name="includeHomeAxisRB">
+       <item>
+        <widget class="QPushButton" name="applyPB">
          <property name="font">
           <font>
-           <pointsize>10</pointsize>
+           <pointsize>11</pointsize>
           </font>
          </property>
          <property name="text">
-          <string>Include Homing Axis</string>
+          <string>Apply</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="applyRepeatPB">
+         <property name="font">
+          <font>
+           <pointsize>11</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Apply Repeat Cycles</string>
          </property>
         </widget>
        </item>
@@ -2593,284 +2709,348 @@
        <attribute name="title">
         <string>Still Image</string>
        </attribute>
-       <widget class="QWidget" name="layoutWidget_4">
+       <widget class="QLabel" name="label">
         <property name="geometry">
          <rect>
           <x>10</x>
           <y>10</y>
-          <width>221</width>
-          <height>161</height>
+          <width>91</width>
+          <height>21</height>
          </rect>
         </property>
-        <layout class="QGridLayout" name="gridLayout_22">
-         <item row="0" column="0">
-          <widget class="QLabel" name="label_57">
-           <property name="text">
-            <string>Integration</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="1">
-          <widget class="QLabel" name="label_58">
-           <property name="text">
-            <string>EM Gain</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="0">
-          <widget class="QDial" name="stillIntDial">
-           <property name="maximum">
-            <number>500</number>
-           </property>
-           <property name="value">
-            <number>35</number>
-           </property>
-           <property name="wrapping">
-            <bool>false</bool>
-           </property>
-           <property name="notchesVisible">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="1">
-          <widget class="QDial" name="stillGainDial">
-           <property name="maximum">
-            <number>255</number>
-           </property>
-           <property name="value">
-            <number>70</number>
-           </property>
-           <property name="wrapping">
-            <bool>false</bool>
-           </property>
-           <property name="notchesVisible">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="0">
-          <widget class="QSpinBox" name="stillIntSB">
-           <property name="maximum">
-            <number>500</number>
-           </property>
-           <property name="value">
-            <number>35</number>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="1">
-          <widget class="QSpinBox" name="stillEMGainSB">
-           <property name="maximum">
-            <number>255</number>
-           </property>
-           <property name="value">
-            <number>70</number>
-           </property>
-          </widget>
-         </item>
-        </layout>
+        <property name="text">
+         <string>Gray Image</string>
+        </property>
        </widget>
-       <widget class="QWidget" name="layoutWidget_5">
+       <widget class="QLabel" name="label_2">
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>180</y>
-          <width>591</width>
+          <y>200</y>
+          <width>121</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Four Color Image</string>
+        </property>
+       </widget>
+       <widget class="QWidget" name="">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>30</y>
+          <width>581</width>
           <height>161</height>
          </rect>
         </property>
-        <layout class="QGridLayout" name="gridLayout_23">
-         <item row="0" column="0">
-          <widget class="QLabel" name="label_59">
-           <property name="text">
-            <string>FAM Gain</string>
+        <layout class="QHBoxLayout" name="horizontalLayout_10">
+         <item>
+          <layout class="QGridLayout" name="gridLayout_22">
+           <item row="0" column="0">
+            <widget class="QLabel" name="label_57">
+             <property name="text">
+              <string>Integration</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QLabel" name="label_58">
+             <property name="text">
+              <string>EM Gain</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QDial" name="stillIntDial">
+             <property name="minimumSize">
+              <size>
+               <width>140</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="maximum">
+              <number>500</number>
+             </property>
+             <property name="value">
+              <number>35</number>
+             </property>
+             <property name="wrapping">
+              <bool>false</bool>
+             </property>
+             <property name="notchesVisible">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QDial" name="stillGainDial">
+             <property name="minimumSize">
+              <size>
+               <width>140</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="maximum">
+              <number>255</number>
+             </property>
+             <property name="value">
+              <number>70</number>
+             </property>
+             <property name="wrapping">
+              <bool>false</bool>
+             </property>
+             <property name="notchesVisible">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <widget class="QSpinBox" name="stillIntSB">
+             <property name="maximum">
+              <number>500</number>
+             </property>
+             <property name="value">
+              <number>35</number>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="1">
+            <widget class="QSpinBox" name="stillEMGainSB">
+             <property name="maximum">
+              <number>255</number>
+             </property>
+             <property name="value">
+              <number>70</number>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <widget class="QListWidget" name="stillFilterListLW">
+           <property name="maximumSize">
+            <size>
+             <width>150</width>
+             <height>16777215</height>
+            </size>
            </property>
+           <item>
+            <property name="text">
+             <string>fam</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>cy3</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>cy5</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>txred</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>none</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>spare</string>
+            </property>
+           </item>
           </widget>
          </item>
-         <item row="0" column="1">
-          <widget class="QLabel" name="label_60">
-           <property name="text">
-            <string>Cy3 Gain</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="2">
-          <widget class="QLabel" name="label_61">
-           <property name="text">
-            <string>Cy5 Gain</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="3">
-          <widget class="QLabel" name="label_62">
-           <property name="text">
-            <string>TxRed Gain</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="0">
-          <widget class="QDial" name="stillFAMGainDial">
-           <property name="maximum">
-            <number>255</number>
-           </property>
-           <property name="value">
-            <number>200</number>
-           </property>
-           <property name="wrapping">
-            <bool>false</bool>
-           </property>
-           <property name="notchesVisible">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="1">
-          <widget class="QDial" name="stillCy3GainDial">
-           <property name="maximum">
-            <number>255</number>
-           </property>
-           <property name="value">
-            <number>200</number>
-           </property>
-           <property name="wrapping">
-            <bool>false</bool>
-           </property>
-           <property name="notchesVisible">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="2">
-          <widget class="QDial" name="stillCy5GainDial">
-           <property name="maximum">
-            <number>255</number>
-           </property>
-           <property name="value">
-            <number>200</number>
-           </property>
-           <property name="wrapping">
-            <bool>false</bool>
-           </property>
-           <property name="notchesVisible">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="3">
-          <widget class="QDial" name="stillTxRGainDial">
-           <property name="maximum">
-            <number>255</number>
-           </property>
-           <property name="value">
-            <number>200</number>
-           </property>
-           <property name="wrapping">
-            <bool>false</bool>
-           </property>
-           <property name="notchesVisible">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="0">
-          <widget class="QSpinBox" name="stillFAMGainSB">
-           <property name="maximum">
-            <number>255</number>
-           </property>
-           <property name="value">
-            <number>200</number>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="1">
-          <widget class="QSpinBox" name="stillCy3GainSB">
-           <property name="maximum">
-            <number>255</number>
-           </property>
-           <property name="value">
-            <number>200</number>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="2">
-          <widget class="QSpinBox" name="stillCy5GainSB">
-           <property name="maximum">
-            <number>255</number>
-           </property>
-           <property name="value">
-            <number>200</number>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="3">
-          <widget class="QSpinBox" name="stillTxRGainSB">
-           <property name="maximum">
-            <number>255</number>
-           </property>
-           <property name="value">
-            <number>200</number>
-           </property>
-          </widget>
+         <item>
+          <layout class="QVBoxLayout" name="verticalLayout_5">
+           <item>
+            <widget class="QPushButton" name="stillSnapPB_2">
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>75</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>Snap Gray Image</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="stillViewPB_2">
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>75</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>View Gray Image</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </item>
         </layout>
        </widget>
-       <widget class="QListWidget" name="stillFilterListLW">
+       <widget class="QWidget" name="">
         <property name="geometry">
          <rect>
-          <x>241</x>
-          <y>11</y>
-          <width>131</width>
-          <height>159</height>
+          <x>10</x>
+          <y>220</y>
+          <width>581</width>
+          <height>253</height>
          </rect>
         </property>
-        <item>
-         <property name="text">
-          <string>fam</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>cy3</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>cy5</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>txred</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>none</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>spare</string>
-         </property>
-        </item>
-       </widget>
-       <widget class="QWidget" name="layoutWidget_6">
-        <property name="geometry">
-         <rect>
-          <x>380</x>
-          <y>11</y>
-          <width>221</width>
-          <height>101</height>
-         </rect>
-        </property>
-        <layout class="QVBoxLayout" name="verticalLayout_5">
-         <item>
-          <layout class="QGridLayout" name="gridLayout_32">
+        <layout class="QGridLayout" name="gridLayout_7">
+         <item row="0" column="0">
+          <layout class="QGridLayout" name="gridLayout_23">
            <item row="0" column="0">
-            <widget class="QLabel" name="Redlabel_3">
+            <widget class="QLabel" name="label_59">
              <property name="text">
-              <string>Red</string>
+              <string>FAM Gain</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QLabel" name="label_60">
+             <property name="text">
+              <string>Cy3 Gain</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="2">
+            <widget class="QLabel" name="label_61">
+             <property name="text">
+              <string>Cy5 Gain</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="3">
+            <widget class="QLabel" name="label_62">
+             <property name="text">
+              <string>TxRed Gain</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QDial" name="stillFAMGainDial">
+             <property name="maximum">
+              <number>255</number>
+             </property>
+             <property name="value">
+              <number>200</number>
+             </property>
+             <property name="wrapping">
+              <bool>false</bool>
+             </property>
+             <property name="notchesVisible">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QDial" name="stillCy3GainDial">
+             <property name="maximum">
+              <number>255</number>
+             </property>
+             <property name="value">
+              <number>200</number>
+             </property>
+             <property name="wrapping">
+              <bool>false</bool>
+             </property>
+             <property name="notchesVisible">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="2">
+            <widget class="QDial" name="stillCy5GainDial">
+             <property name="maximum">
+              <number>255</number>
+             </property>
+             <property name="value">
+              <number>200</number>
+             </property>
+             <property name="wrapping">
+              <bool>false</bool>
+             </property>
+             <property name="notchesVisible">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="3">
+            <widget class="QDial" name="stillTxRGainDial">
+             <property name="maximum">
+              <number>255</number>
+             </property>
+             <property name="value">
+              <number>200</number>
+             </property>
+             <property name="wrapping">
+              <bool>false</bool>
+             </property>
+             <property name="notchesVisible">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <widget class="QSpinBox" name="stillFAMGainSB">
+             <property name="maximum">
+              <number>255</number>
+             </property>
+             <property name="value">
+              <number>200</number>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="1">
+            <widget class="QSpinBox" name="stillCy3GainSB">
+             <property name="maximum">
+              <number>255</number>
+             </property>
+             <property name="value">
+              <number>200</number>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="2">
+            <widget class="QSpinBox" name="stillCy5GainSB">
+             <property name="maximum">
+              <number>255</number>
+             </property>
+             <property name="value">
+              <number>200</number>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="3">
+            <widget class="QSpinBox" name="stillTxRGainSB">
+             <property name="maximum">
+              <number>255</number>
+             </property>
+             <property name="value">
+              <number>200</number>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item row="1" column="0">
+          <layout class="QGridLayout" name="gridLayout_5">
+           <item row="0" column="0">
+            <widget class="QLabel" name="Bluelabel_3">
+             <property name="text">
+              <string>Blue</string>
              </property>
             </widget>
            </item>
@@ -2882,14 +3062,21 @@
             </widget>
            </item>
            <item row="0" column="2">
-            <widget class="QLabel" name="Bluelabel_3">
+            <widget class="QLabel" name="Redlabel_3">
              <property name="text">
-              <string>Blue</string>
+              <string>Red</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="3">
+            <widget class="QLabel" name="Bluelabel_4">
+             <property name="text">
+              <string>Amber</string>
              </property>
             </widget>
            </item>
            <item row="1" column="0">
-            <widget class="QComboBox" name="stillRedSB">
+            <widget class="QComboBox" name="stillBlueSB">
              <item>
               <property name="text">
                <string>fam</string>
@@ -2947,7 +3134,36 @@
             </widget>
            </item>
            <item row="1" column="2">
-            <widget class="QComboBox" name="stillBlueSB">
+            <widget class="QComboBox" name="stillRedSB">
+             <item>
+              <property name="text">
+               <string>fam</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>cy5</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>cy3</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>txr</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>none</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+           <item row="1" column="3">
+            <widget class="QComboBox" name="stillBlueSB_2">
              <item>
               <property name="text">
                <string>fam</string>
@@ -2977,19 +3193,19 @@
            </item>
           </layout>
          </item>
-         <item>
+         <item row="2" column="0">
           <layout class="QGridLayout" name="gridLayout_33">
            <item row="0" column="1">
             <widget class="QPushButton" name="stillViewPB">
              <property name="text">
-              <string>View</string>
+              <string>View Four-Color Image</string>
              </property>
             </widget>
            </item>
            <item row="0" column="0">
             <widget class="QPushButton" name="stillSnapPB">
              <property name="text">
-              <string>Snap</string>
+              <string>Snap Four-Color Image</string>
              </property>
             </widget>
            </item>
@@ -3002,182 +3218,184 @@
        <attribute name="title">
         <string>Live Image</string>
        </attribute>
-       <widget class="QWidget" name="layoutWidget_8">
+       <widget class="QWidget" name="">
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>10</y>
-          <width>221</width>
+          <y>30</y>
+          <width>591</width>
           <height>161</height>
          </rect>
         </property>
-        <layout class="QGridLayout" name="gridLayout_24">
-         <item row="0" column="0">
-          <widget class="QLabel" name="label_63">
-           <property name="text">
-            <string>Integration</string>
-           </property>
+        <layout class="QHBoxLayout" name="horizontalLayout_11">
+         <item>
+          <layout class="QGridLayout" name="gridLayout_24">
+           <item row="0" column="0">
+            <widget class="QLabel" name="label_63">
+             <property name="text">
+              <string>Integration</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QLabel" name="label_64">
+             <property name="text">
+              <string>EM Gain</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QDial" name="liveIntDial">
+             <property name="minimumSize">
+              <size>
+               <width>140</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="maximum">
+              <number>500</number>
+             </property>
+             <property name="value">
+              <number>35</number>
+             </property>
+             <property name="wrapping">
+              <bool>false</bool>
+             </property>
+             <property name="notchesVisible">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QDial" name="liveEMGainDial">
+             <property name="minimumSize">
+              <size>
+               <width>140</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="maximum">
+              <number>255</number>
+             </property>
+             <property name="value">
+              <number>70</number>
+             </property>
+             <property name="wrapping">
+              <bool>false</bool>
+             </property>
+             <property name="notchesVisible">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="1">
+            <widget class="QSpinBox" name="liveEMGainSB">
+             <property name="maximum">
+              <number>255</number>
+             </property>
+             <property name="value">
+              <number>70</number>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <widget class="QSpinBox" name="liveIntSB">
+             <property name="maximum">
+              <number>500</number>
+             </property>
+             <property name="value">
+              <number>35</number>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <widget class="QListWidget" name="utilsLiveFilterList_3">
+           <item>
+            <property name="text">
+             <string>fam</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>cy3</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>cy5</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>txred</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>none</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>spare</string>
+            </property>
+           </item>
           </widget>
          </item>
-         <item row="0" column="1">
-          <widget class="QLabel" name="label_64">
-           <property name="text">
-            <string>EM Gain</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="0">
-          <widget class="QDial" name="liveIntDial">
-           <property name="maximum">
-            <number>500</number>
-           </property>
-           <property name="value">
-            <number>35</number>
-           </property>
-           <property name="wrapping">
-            <bool>false</bool>
-           </property>
-           <property name="notchesVisible">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="1">
-          <widget class="QDial" name="liveEMGainDial">
-           <property name="maximum">
-            <number>255</number>
-           </property>
-           <property name="value">
-            <number>70</number>
-           </property>
-           <property name="wrapping">
-            <bool>false</bool>
-           </property>
-           <property name="notchesVisible">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="1">
-          <widget class="QSpinBox" name="liveEMGainSB">
-           <property name="maximum">
-            <number>255</number>
-           </property>
-           <property name="value">
-            <number>70</number>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="0">
-          <widget class="QSpinBox" name="liveIntSB">
-           <property name="maximum">
-            <number>500</number>
-           </property>
-           <property name="value">
-            <number>35</number>
-           </property>
-          </widget>
+         <item>
+          <layout class="QVBoxLayout" name="verticalLayout_6">
+           <item>
+            <widget class="QPushButton" name="liveStartPB">
+             <property name="text">
+              <string>Start live</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="liveCloseShutterPB">
+             <property name="text">
+              <string>Close shutter / LED</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="Currentfocuslabel_2">
+             <property name="text">
+              <string>Current focus:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QSlider" name="liveFocusBarS">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="minimum">
+              <number>1</number>
+             </property>
+             <property name="maximum">
+              <number>81</number>
+             </property>
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="liveSetFocusPB">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="text">
+              <string>Set Focus</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </item>
         </layout>
-       </widget>
-       <widget class="QWidget" name="layoutWidget">
-        <property name="geometry">
-         <rect>
-          <x>379</x>
-          <y>11</y>
-          <width>221</width>
-          <height>159</height>
-         </rect>
-        </property>
-        <layout class="QVBoxLayout" name="verticalLayout_6">
-         <item>
-          <widget class="QPushButton" name="liveStartPB">
-           <property name="text">
-            <string>Start live</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="liveCloseShutterPB">
-           <property name="text">
-            <string>Close shutter / LED</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="Currentfocuslabel_2">
-           <property name="text">
-            <string>Current focus:</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QSlider" name="liveFocusBarS">
-           <property name="enabled">
-            <bool>false</bool>
-           </property>
-           <property name="minimum">
-            <number>1</number>
-           </property>
-           <property name="maximum">
-            <number>81</number>
-           </property>
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="liveSetFocusPB">
-           <property name="enabled">
-            <bool>false</bool>
-           </property>
-           <property name="text">
-            <string>Set Focus</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </widget>
-       <widget class="QListWidget" name="utilsLiveFilterList_3">
-        <property name="geometry">
-         <rect>
-          <x>241</x>
-          <y>11</y>
-          <width>131</width>
-          <height>159</height>
-         </rect>
-        </property>
-        <item>
-         <property name="text">
-          <string>fam</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>cy3</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>cy5</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>txred</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>none</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>spare</string>
-         </property>
-        </item>
        </widget>
       </widget>
      </widget>
@@ -3273,7 +3491,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>654</width>
+     <width>656</width>
      <height>29</height>
     </rect>
    </property>

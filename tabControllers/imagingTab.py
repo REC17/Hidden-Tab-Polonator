@@ -100,49 +100,49 @@ class imgTab:
 
     def csCopySnapSet(self):
         print 'test pass'
-self.updateCycleScanParams()
+        self.updateCycleScanParams()
 
 
     def csDarkfieldScan(self):
-	    self.ButtonPermission("All", False)
-	
-	    if self.acqSingle.isChecked():
-	        cyclename = "WL1"
-	        flowcell = "0"
-	
-	    elif self.acqDual.isChecked():
-	        cyclename = "WL2"
-	        flowcell = "2"
-	        
-	    else:
-	        cyclename = "WL2"
-	        flowcell = "3"
-	 
-	    cmd = "python /home/polonator/G.007/G.007_acquisition/src/test-img.py " + cyclename + " " + flowcell 
-	
-	    self.process_start(cmd,  ['pass'], "self.process_pass()")    
-	    
+        self.ButtonPermission("All", False)
+
+        if self.acqSingle.isChecked():
+            cyclename = "WL1"
+            flowcell = "0"
+
+        elif self.acqDual.isChecked():
+            cyclename = "WL2"
+            flowcell = "2"
+
+        else:
+            cyclename = "WL2"
+            flowcell = "3"
+
+        cmd = "python /home/polonator/G.007/G.007_acquisition/src/test-img.py " + cyclename + " " + flowcell 
+
+        self.process_start(cmd,  ['pass'], "self.process_pass()")    
+
 
     def csCycleScan(self):
-	    fcnum = "0";
-	
-	    self.ButtonPermission("All", False)    
-	    if not self.acqFC0.isChecked():
-	        fcnum = "1"
-	
-	    cmd = "python /home/polonator/G.007/G.007_acquisition/src/test-img.py " \
-			+ str(self.acqCycleName.displayText()) + " " \
-			+ fcnum + " "+ str(self.acqCycleIntFAM.value()) \
-			+ " " + str(self.acqCycleGainFAM.value()) \
-			+ " " + str(self.acqCycleIntCy5.value()) \
-			+ " " + str(self.acqCycleGainCy5.value()) \
-			+ " " + str(self.acqCycleIntCy3.value()) + " " \
-			+ str(self.acqCycleGainCy3.value()) + " " \
-			+ str(self.acqCycleGainTxRed.value()) \
-			+ " " + str(self.acqCycleIntTxR.value())
-	
-	    self.process_start(cmd,  ['pass'], "self.process_pass()") 
-	    
+        fcnum = "0";
+    
+        self.ButtonPermission("All", False)    
+        if not self.acqFC0.isChecked():
+            fcnum = "1"
+    
+        cmd = "python /home/polonator/G.007/G.007_acquisition/src/test-img.py " \
+            + str(self.acqCycleName.displayText()) + " " \
+            + fcnum + " "+ str(self.acqCycleIntFAM.value()) \
+            + " " + str(self.acqCycleGainFAM.value()) \
+            + " " + str(self.acqCycleIntCy5.value()) \
+            + " " + str(self.acqCycleGainCy5.value()) \
+            + " " + str(self.acqCycleIntCy3.value()) + " " \
+            + str(self.acqCycleGainCy3.value()) + " " \
+            + str(self.acqCycleGainTxRed.value()) \
+            + " " + str(self.acqCycleIntTxR.value())
+    
+        self.process_start(cmd,  ['pass'], "self.process_pass()") 
+        
 
     def stillSnap(self):
         print 'test pass'
@@ -152,62 +152,62 @@ self.updateCycleScanParams()
         self.process_start(cmd,  ['pass'], "self.process_pass()")
 
 #COLOR
-	    commandArgs = "" + str(float(int(self.utilsSnapExp.value())) / 1000) \
-	+ " " + str(int(self.utilsColorFAMgain.value())) \
-	+ " " + str(int(self.utilsColorCy5gain.value())) \
-	+ " " + str(float(int(self.utilsColorCy3gain.value()))) \
-	+ " " + str(float(int(self.utilsColorTxRgain.value())))
-	    cmd = acqbase_dir + "/PolonatorUtils colorsnap " + commandArgs 
-	    self.process_start(cmd,  ['pass'], "self.process_pass()")               
-	      
+        commandArgs = "" + str(float(int(self.utilsSnapExp.value())) / 1000) \
+        + " " + str(int(self.utilsColorFAMgain.value())) \
+        + " " + str(int(self.utilsColorCy5gain.value())) \
+        + " " + str(float(int(self.utilsColorCy3gain.value()))) \
+        + " " + str(float(int(self.utilsColorTxRgain.value())))
+        cmd = acqbase_dir + "/PolonatorUtils colorsnap " + commandArgs 
+        self.process_start(cmd,  ['pass'], "self.process_pass()")               
+
     def stillView(self):
-	    filename1 = "none"
-	    filename2 = "none"
-	    filename3 = "none"
-	    red = str(self.utilsColorRed.currentText())
-	    green = str(self.utilsColorGreen.currentText())
-	    blue = str(self.utilsColorBlue.currentText())
-	    if not red == "none" or not green == "none" or not blue == "none":
-	        pass
-	    if not red == "none":
-	        filename1 = "/home/polonator/G.007/G.007_acquisition/colorsnap-" + red + ".raw"
-	    if not green == "none":
-	        filename2 = "/home/polonator/G.007/G.007_acquisition/colorsnap-" + green + ".raw"
-	    if not blue == "none":
-	        filename3 = "/home/polonator/G.007/G.007_acquisition/colorsnap-" + blue + ".raw"
-	    cmd = "/home/polonator/G.007/G.007_acquisition/run_display_color_raw.sh /opt/MATLAB/MATLAB_Component_Runtime/v77/ " \
-	+ filename1 +" " + filename2 +" " + filename3 
-	    self.process_start(cmd,  ['pass'], "self.process_pass()")  
+        filename1 = "none"
+        filename2 = "none"
+        filename3 = "none"
+        red = str(self.utilsColorRed.currentText())
+        green = str(self.utilsColorGreen.currentText())
+        blue = str(self.utilsColorBlue.currentText())
+        if not red == "none" or not green == "none" or not blue == "none":
+            pass
+        if not red == "none":
+            filename1 = "/home/polonator/G.007/G.007_acquisition/colorsnap-" + red + ".raw"
+        if not green == "none":
+            filename2 = "/home/polonator/G.007/G.007_acquisition/colorsnap-" + green + ".raw"
+        if not blue == "none":
+            filename3 = "/home/polonator/G.007/G.007_acquisition/colorsnap-" + blue + ".raw"
+        cmd = "/home/polonator/G.007/G.007_acquisition/run_display_color_raw.sh /opt/MATLAB/MATLAB_Component_Runtime/v77/ " \
+    + filename1 +" " + filename2 +" " + filename3 
+        self.process_start(cmd,  ['pass'], "self.process_pass()")  
 
         
     def liveStart(self):
-	    # disableAllAcqUtilsCameraButtons();
-	    commandArgs = ""+ str(float(int(self.utilsLiveExp.value())) / 1000) \
-	+ " " + str(int(self.utilsLiveGain.value()))+" "+ str(self.utilsLiveFilterList.currentItem().text())
-	    cmd = acqbase_dir+"/PolonatorUtils live_new " + commandArgs 
-	    self.utilFocusBar.setEnabled(True);
-	    self.utilSetFocus.setEnabled(True);  
-	    self.process_start(cmd,  ['pass'], "self.process_pass()")          
+        # disableAllAcqUtilsCameraButtons();
+        commandArgs = ""+ str(float(int(self.utilsLiveExp.value())) / 1000) \
+    + " " + str(int(self.utilsLiveGain.value()))+" "+ str(self.utilsLiveFilterList.currentItem().text())
+        cmd = acqbase_dir+"/PolonatorUtils live_new " + commandArgs 
+        self.utilFocusBar.setEnabled(True);
+        self.utilSetFocus.setEnabled(True);  
+        self.process_start(cmd,  ['pass'], "self.process_pass()")          
 
 
     def liveCloseShutter(self):
-	    #TODO add your handling code here:
-	    cmd = acqbase_dir + "/PolonatorUtils darkfield-off "
-	
-	    self.process_start(cmd, ['pass'], "self.shutLightButton2()")    
-	
-	
-	#         cmd1 = 'python initialize_processor.py'
-	#         self.process_start(cmd1, self.polonator_textarea, ['pass'], "self.shutLightButton2()")    
-	
-	def shutLightButton2(self):
-	    cmd2 = "/home/polonator/G.007/G.007_acquisition/PolonatorUtils shutter_close "
-	    self.process_start(cmd2, ['pass'], "self.process_oa()") 
+        #TODO add your handling code here:
+        cmd = acqbase_dir + "/PolonatorUtils darkfield-off "
+    
+        self.process_start(cmd, ['pass'], "self.shutLightButton2()")    
+    
+    
+    #         cmd1 = 'python initialize_processor.py'
+    #         self.process_start(cmd1, self.polonator_textarea, ['pass'], "self.shutLightButton2()")    
+    
+    def shutLightButton2(self):
+        cmd2 = "/home/polonator/G.007/G.007_acquisition/PolonatorUtils shutter_close "
+        self.process_start(cmd2, ['pass'], "self.process_oa()") 
 
 
     def liveSetFocus(self):
-	    cmd = acqbase_dir + "/PolonatorUtils setfocus " + str(self.utilFocusBar.value())    
-	# utilFocusLabel.setText(Integer.toString(utilFocusBar.getValue()));
-	    self.process_start(cmd,  ['pass'], "self.process_pass()")              
+        cmd = acqbase_dir + "/PolonatorUtils setfocus " + str(self.utilFocusBar.value())    
+    # utilFocusLabel.setText(Integer.toString(utilFocusBar.getValue()));
+        self.process_start(cmd,  ['pass'], "self.process_pass()")              
 
 

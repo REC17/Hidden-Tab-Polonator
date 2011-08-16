@@ -24,6 +24,10 @@ class seqTab:
         self.includeHomeAxisRB = self.mainWin.includeHomeAxisRB
         self.cycleEntryValidatePB = self.mainWin.cycleEntryValidatePB
         self.clearSelectionPB = self.mainWin.clearSelectionPB
+        self.applyPB = self.mainWin.applyPB
+        self.applyRepeatPB = self.mainWin.applyRepeatPB
+
+        self.applyPB.setEnabled(False)
         self.touchFlagCB = self.mainWin.touchFlagCB
         self.cycleTable = self.mainWin.cycleTable
         self.sequenceGraphicsView = self.mainWin.sequenceGraphicsView
@@ -49,6 +53,8 @@ class seqTab:
         self.seqStartPB.pressed.connect(self.start)
         self.cycleEntryValidatePB.pressed.connect(self.validate)
         self.clearSelectionPB.pressed.connect(self.clear)
+        self.applyPB.pressed.connect(self.applySeq)
+        self.applyRepeatPB.pressed.connect(self.applyRepeatSeq)
 
     def abort(self):
         print 'abort'
@@ -100,75 +106,92 @@ class seqTab:
         print 'clear'
         self.cycleTable.clearContents()
         while len(self.baseClassL) != 0:
+            #Make sure to remove all repeats, base select turns bases purple
+            self.baseClassL[0].fill = self.baseClassL[0].red
             self.baseClassL[0].baseSelect()
+        self.updateCycleList()
 
+    def applySeq(self):
+        self.updateCycleList()
+        self.applyPB.setEnabled(False)
+
+    def applyRepeatSeq(self):
+        baseClassLPreserve = []
+        for base in self.baseClassL:
+            if baseClassLPreserve.count(base) == 0:
+                baseClassLPreserve.append(base)
+        for base in baseClassLPreserve:
+            self.baseClassL.append(base)
+        self.updateCycleList()
+        
     def graphicsViewMouseRelease(self, event):
         #Create cycle name from base
-        sortCycleL = []
-        for base in self.sortBaseL:
-            cycle = base.primer.primerLetter
-            if base.parentItem().pos().x() > base.primer.pos().x():
-                cycle = cycle + 'P'
-            else:
-                cycle = cycle + 'M'
-            cycle = cycle + base.position
+        if len(self.sortBaseL) != 0:
+            sortCycleL = []
+            for base in self.sortBaseL:
+                cycle = base.primer.primerLetter
+                if base.parentItem().pos().x() > base.primer.pos().x():
+                    cycle = cycle + 'P'
+                else:
+                    cycle = cycle + 'M'
+                cycle = cycle + base.position
 
-            self.sortCycleD.update({cycle : base})
-            sortCycleL.append(cycle)
+                self.sortCycleD.update({cycle : base})
+                sortCycleL.append(cycle)
 
-        #Create a plus list and a minus list
-        plusL = []
-        minusL = []
-        maxPos = 1
+            #Create a plus list and a minus list
+            plusL = []
+            minusL = []
+            maxPos = 1
 
-        cycleCount = 0
-        for cycle in sortCycleL:
-            if cycle[1] == 'P':
-                plusL.append(cycle)
-            if cycle[1] == 'M':
-                minusL.append(cycle)
+            cycleCount = 0
+            for cycle in sortCycleL:
+                if cycle[1] == 'P':
+                    plusL.append(cycle)
+                if cycle[1] == 'M':
+                    minusL.append(cycle)
 
-        #Sort Plus
-        sortL = []
-        for cycle in plusL:
-            pos = int(cycle[2])
-            if sortL.count(pos) == 0:
-                sortL.append(pos)
-        sortL.sort()
-        sortL.reverse()
-        for num in sortL:
+            #Sort Plus
+            sortL = []
             for cycle in plusL:
                 pos = int(cycle[2])
-                if pos == num:
-                    self.sortedCyclesL.append(cycle)
-        
-        #Sort Minus
-        sortL = []
-        for cycle in minusL:
-            pos = int(cycle[2])
-            if sortL.count(pos) == 0:
-                sortL.append(pos)
-        sortL.sort()
-        sortL.reverse()
-        for num in sortL:
+                if sortL.count(pos) == 0:
+                    sortL.append(pos)
+            sortL.sort()
+            sortL.reverse()
+            for num in sortL:
+                for cycle in plusL:
+                    pos = int(cycle[2])
+                    if pos == num:
+                        self.sortedCyclesL.append(cycle)
+            
+            #Sort Minus
+            sortL = []
             for cycle in minusL:
                 pos = int(cycle[2])
-                if pos == num:
-                    self.sortedCyclesL.append(cycle)
+                if sortL.count(pos) == 0:
+                    sortL.append(pos)
+            sortL.sort()
+            sortL.reverse()
+            for num in sortL:
+                for cycle in minusL:
+                    pos = int(cycle[2])
+                    if pos == num:
+                        self.sortedCyclesL.append(cycle)
 
-        for cycle in self.sortedCyclesL:
-            self.baseClassL.append(self.sortCycleD[cycle])
+            for cycle in self.sortedCyclesL:
+                self.baseClassL.append(self.sortCycleD[cycle])
 
-        #Reinitialize data structures
-        self.sortedCyclesL = []
-        self.sortCycleD = {}
+            #Reinitialize data structures
+            self.sortedCyclesL = []
+            self.sortCycleD = {}
 
-        #Empty list without jeapordizing data structure location
-        while len(self.sortBaseL) != 0:
-            self.sortBaseL.pop()
+            #Empty list without jeapordizing data structure location
+            while len(self.sortBaseL) != 0:
+                self.sortBaseL.pop()
+            self.applyPB.setEnabled(True)
+            #update cycle list
 
-        #update cycle list
-        self.updateCycleList()
 
     def addSequence(self):
         

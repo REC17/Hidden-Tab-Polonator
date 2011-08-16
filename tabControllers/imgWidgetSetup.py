@@ -11,8 +11,6 @@ from PyQt4.QtGui import *
 
 class widgetSetup:
     def __init__(self, mainWin, parent=None):
-        print 'import pass'
-
         self.mainWin = mainWin
 
         #Cycle Scan Tab

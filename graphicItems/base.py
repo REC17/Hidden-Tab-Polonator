@@ -42,11 +42,11 @@ class Base(QGraphicsItem):
             if self.fill == self.purple:
                 self.fill = self.red
                 self.parentItem().baseClassL.append(self)
-                self.parentItem().updateCycles()
+                self.parentItem().mainWin.applyPB.setEnabled(True)
             elif self.fill == self.red:
                 self.fill = self.purple
                 self.parentItem().baseClassL.remove(self)
-                self.parentItem().updateCycles()
+                self.parentItem().mainWin.applyPB.setEnabled(True)
             self.update()
 
 

@@ -39,7 +39,7 @@ class maestroTab:
     def home(self):
         print 'test pass'
         self.ButtonPermission(self.AcquisitionUtilitiesTab, False)
-        #	    cmd = "/home/polonator/G.007/G.007_acquisition/PolonatorUtils hometheta"
+        #        cmd = "/home/polonator/G.007/G.007_acquisition/PolonatorUtils hometheta"
         cmd = acqbase_dir + "/PolonatorUtils hometheta"
         self.process_start(cmd, ['pass'], "self.process_pass()")    
 
@@ -84,7 +84,7 @@ class maestroTab:
         title = "STAGEALIGN-BASE-IMAGE-FLOWCELL-" + str(stagealign_fcnum) + "-LANE-" + str(int(self.stagealign_lane.value()))
         cmd = cmd + " " + title
         self.process_start(cmd,  ['pass'], "self.process_pass()")   
-	                
+                    
     def viewImg(self):
         print 'test pass'
         if self.stagealign_fc0.isChecked():

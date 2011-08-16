@@ -4,12 +4,13 @@ from PyQt4.QtGui import *
 from base import Base
 
 class Sequence(QGraphicsItem):
-    def __init__(self, mainwin, sequence, position, minusPrimer, plusPrimer, parent = None):
+    def __init__(self, mainWin, sequence, position, minusPrimer, plusPrimer, parent = None):
         super(Sequence, self).__init__()
 
-        self.baseClassL = mainwin.baseClassL
-        self.sortBaseL = mainwin.sortBaseL
-        self.updateCycles = mainwin.updateCycleList
+        self.mainWin = mainWin
+        self.baseClassL = self.mainWin.baseClassL
+        self.sortBaseL = self.mainWin.sortBaseL
+
 
         self.fill = QColor(100, 204, 150)
         self.seq = sequence
