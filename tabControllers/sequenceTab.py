@@ -139,10 +139,10 @@ class seqTab:
                     self.seqStartPB.setEnabled(False)
                     breakAll = True                        
                     break
-
-                if str(self.cycleTable.item(i, 1).text()) != 'P' or\
-                        str(self.cycleTable.item(i, 1).text()) != 'p' or\
-                        str(self.cycleTable.item(i, 1).text()) != 'M' or\
+    
+                if str(self.cycleTable.item(i, 1).text()) != 'P' and\
+                        str(self.cycleTable.item(i, 1).text()) != 'p' and\
+                        str(self.cycleTable.item(i, 1).text()) != 'M' and\
                         str(self.cycleTable.item(i, 1).text()) != 'm':
                     self.seqStartPB.setEnabled(False)
                     self.warningDialog = WarningDialog(\
@@ -154,10 +154,8 @@ class seqTab:
                     breakAll = True                        
                     break
 
-
-                '''
-                try int(str(self.cycleTable.item(i, 2).text())):
-                    pass
+                try:
+                    int(str(self.cycleTable.item(i, 2).text()))
                 except:
                     self.seqStartPB.setEnabled(False)
                     self.warningDialog = WarningDialog(\
@@ -168,7 +166,7 @@ class seqTab:
                     self.seqStartPB.setEnabled(False)
                     breakAll = True                        
                     break
-                '''
+
 
 
         if isEmpty == True:
