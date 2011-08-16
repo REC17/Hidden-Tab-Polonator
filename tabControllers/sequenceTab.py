@@ -12,6 +12,7 @@ from PyQt4.QtGui import *
 from graphicItems.primer import Primer
 from graphicItems.seqFunc import SeqFunc
 from graphicItems.sequence import Sequence
+from ui.warningDialog import WarningDialog
 
 class seqTab:
     def __init__(self, mainWin, parent=None):
@@ -28,6 +29,10 @@ class seqTab:
         self.applyRepeatPB = self.mainWin.applyRepeatPB
 
         self.applyPB.setEnabled(False)
+        self.applyRepeatPB.setEnabled(False)
+
+        self.warningDialog = None
+
         self.touchFlagCB = self.mainWin.touchFlagCB
         self.cycleTable = self.mainWin.cycleTable
         self.sequenceGraphicsView = self.mainWin.sequenceGraphicsView
@@ -46,7 +51,12 @@ class seqTab:
         self.sequenceGraphicsView.mouseReleaseEvent = self.graphicsViewMouseRelease
         self.sequenceGraphicsView.setRubberBandSelectionMode(Qt.ContainsItemBoundingRect)
         self.addSequence()
+
+        #initialize table widget
+        self.updateCycleList()
+
         self.establishConnections()
+
 
     def establishConnections(self):
         self.abortButton.pressed.connect(self.abort)
@@ -62,7 +72,7 @@ class seqTab:
     def start(self):
         print 'start'
         touchFlag = "0"
-
+        '''
         try:
             with open("/home/polonator/G.007/G.007_fluidics/src/cycle_list", "w") as outfile:
                 for i in range(len(entry)):
@@ -77,12 +87,73 @@ class seqTab:
         except IOError: #as (errno, strerror):
             print "Error writing to cycle_list file, I/O error" #: ({0}): {1}".format(errno, strerror)        
         #  self.process_start(cmd, ['pass'], "self.process_pass()")   
-
+        '''
     def validate(self):
         print 'validate'
-        changed = False
+        breakAll = False
+        isEmpty = True
         validateList = []
+        self.seqStartPB.setEnabled(True)
+        for i in range(self.cycleTable.rowCount()):
+            if self.cycleTable.item(i, 0).text() == '' and \
+                    self.cycleTable.item(i, 1).text() == '' and \
+                    self.cycleTable.item(i, 2).text() == '':
+                pass
+            else:
+                isEmpty = False
+                for j in range(3):
+                    if self.cycleTable.item(i,j).text() == '':
+                        self.seqStartPB.setEnabled(False)
+                        self.warningDialog = WarningDialog(\
+                            'Cell (%(i)s, %(j)s) is empty' %{'i':str(i+1),\
+                             'j':str(j+1)}, None)
+                        self.warningDialog.cancelButton.hide()             
+                        self.warningDialog.show()
+                        self.seqStartPB.setEnabled(False)
+                        breakAll = True                        
+                        break
+
+                if breakAll == True:
+                    break
+
+                if len(self.cycleTable.item(i, 0).text()) > 1:
+                    self.seqStartPB.setEnabled(False)
+                    self.warningDialog = WarningDialog(\
+                        'Expected a single letter in cell (%(i)s, %(j)s) between "A" and "Z" (not case sensative)' %{'i':str(i+1),\
+                         'j':str(j+1)}, None)
+                    self.warningDialog.cancelButton.hide()             
+                    self.warningDialog.show()
+                    self.seqStartPB.setEnabled(False)
+                    breakAll = True                        
+                    break
+
+                if not (ord('A') <= ord(str(self.cycleTable.item(i, 0).text())) <= ord('Z')\
+                        or ord('a') <= ord(str(self.cycleTable.item(i, 0).text())) <= ord('z')):
+                    self.seqStartPB.setEnabled(False)
+                    self.warningDialog = WarningDialog(\
+                        'Expected a single letter in cell (%(i)s, %(j)s) between "A" and "Z" (not case sensative)' %{'i':str(i+1),\
+                         'j':str(j+1)}, None)
+                    self.warningDialog.cancelButton.hide()             
+                    self.warningDialog.show()
+                    self.seqStartPB.setEnabled(False)
+                    breakAll = True                        
+                    break
+                
+
+
+
+        if isEmpty == True:
+            self.warningDialog = WarningDialog(\
+            'Cycle list is empty!', None)
+            self.warningDialog.cancelButton.hide()             
+            self.warningDialog.show()
+            self.seqStartPB.setEnabled(False)
+
+            #if valid == True:
+            #    self.seqStartPB.setEnabled(True)
+        #print self.polonatorCycleListVector
         # validate each line; keep track if we need to change something
+        """
         if len(self.polonatorCycleListVector) == 0:
             changed = True
         else:
@@ -100,9 +171,14 @@ class seqTab:
         if changed:
             pass
         else:
-            self.seqStartPB.setEnabled(True)
-
+            
+        """
     def clear(self):
+        self.warningDialog = WarningDialog('Are you sure that you want to clear the cycle list?', self.okClear)
+        #self.warningDialog.setMessage()
+        self.warningDialog.show()
+
+    def okClear(self):
         print 'clear'
         self.cycleTable.clearContents()
         while len(self.baseClassL) != 0:
@@ -110,10 +186,14 @@ class seqTab:
             self.baseClassL[0].fill = self.baseClassL[0].red
             self.baseClassL[0].baseSelect()
         self.updateCycleList()
+        self.applyPB.setEnabled(False)
+        self.applyRepeatPB.setEnabled(False)
+        self.warningDialog = None
 
     def applySeq(self):
         self.updateCycleList()
         self.applyPB.setEnabled(False)
+        self.applyRepeatPB.setEnabled(True)
 
     def applyRepeatSeq(self):
         baseClassLPreserve = []
@@ -154,28 +234,28 @@ class seqTab:
             #Sort Plus
             sortL = []
             for cycle in plusL:
-                pos = int(cycle[2])
+                pos = int(cycle[2:])
                 if sortL.count(pos) == 0:
                     sortL.append(pos)
             sortL.sort()
             sortL.reverse()
             for num in sortL:
                 for cycle in plusL:
-                    pos = int(cycle[2])
+                    pos = int(cycle[2:])
                     if pos == num:
                         self.sortedCyclesL.append(cycle)
             
             #Sort Minus
             sortL = []
             for cycle in minusL:
-                pos = int(cycle[2])
+                pos = int(cycle[2:])
                 if sortL.count(pos) == 0:
                     sortL.append(pos)
             sortL.sort()
             sortL.reverse()
             for num in sortL:
                 for cycle in minusL:
-                    pos = int(cycle[2])
+                    pos = int(cycle[2:])
                     if pos == num:
                         self.sortedCyclesL.append(cycle)
 
@@ -190,6 +270,7 @@ class seqTab:
             while len(self.sortBaseL) != 0:
                 self.sortBaseL.pop()
             self.applyPB.setEnabled(True)
+
             #update cycle list
 
 
@@ -200,7 +281,6 @@ class seqTab:
         seqList = json.load(f)
         #seqListRel is for enabling relationships between sequences and primers
         seqListRel = seqList
-
 
         primerLabelIndex = 65
         for i in range(len(seqList)):
@@ -254,6 +334,12 @@ class seqTab:
                 if self.cycleTable.rowCount() > 10:
                     self.cycleTable.removeRow(self.cycleTable.rowCount() - (i+1))
                 
+        # Replace table widget items so they don't return as none
+        for row in range(10):
+            self.cycleTable.setItem(row, 0, QTableWidgetItem(QString('')))
+            self.cycleTable.setItem(row, 1, QTableWidgetItem(QString('')))
+            self.cycleTable.setItem(row, 2, QTableWidgetItem(QString('')))
+
         # Create Cycle Names (tuple object)
         for base in self.baseClassL:
             if base.parentItem().pos().x() > base.primer.pos().x():

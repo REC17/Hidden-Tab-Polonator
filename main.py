@@ -15,9 +15,9 @@ class Polonator(QMainWindow, ui_htPol.Ui_MainWindow):
     def __init__(self, parent=None):
         super(Polonator, self).__init__(parent)
         self.setupUi(self)
-        #columnWidth = self.cycleTable.width()/4
-        #for i in range(4):
-        #    self.cycleTable.setColumnWidth(i, columnWidth - 11)
+        columnWidth = self.cycleTable.width()/3
+        for i in range(3):
+            self.cycleTable.setColumnWidth(i, columnWidth - 15)
 
         self.polonatorCycleListVector = []
         self.currentDir = os.getcwd()

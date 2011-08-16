@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'htPol.ui'
 #
-# Created: Tue Aug 16 13:35:18 2011
+# Created: Tue Aug 16 15:24:52 2011
 #      by: PyQt4 UI code generator 4.8.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -87,7 +87,7 @@ class Ui_MainWindow(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.cycleTable.sizePolicy().hasHeightForWidth())
         self.cycleTable.setSizePolicy(sizePolicy)
-        self.cycleTable.setMinimumSize(QtCore.QSize(0, 325))
+        self.cycleTable.setMinimumSize(QtCore.QSize(300, 325))
         self.cycleTable.setBaseSize(QtCore.QSize(0, 0))
         self.cycleTable.setLineWidth(1)
         self.cycleTable.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOn)
@@ -1470,7 +1470,7 @@ class Ui_MainWindow(object):
         self.Executinglabel_2.setText(QtGui.QApplication.translate("MainWindow", "Executing", None, QtGui.QApplication.UnicodeUTF8))
         self.clearSelectionPB.setText(QtGui.QApplication.translate("MainWindow", "Clear Selection", None, QtGui.QApplication.UnicodeUTF8))
         self.applyPB.setText(QtGui.QApplication.translate("MainWindow", "Apply", None, QtGui.QApplication.UnicodeUTF8))
-        self.applyRepeatPB.setText(QtGui.QApplication.translate("MainWindow", "Apply Repeat Cycles", None, QtGui.QApplication.UnicodeUTF8))
+        self.applyRepeatPB.setText(QtGui.QApplication.translate("MainWindow", "Apply Repeat Cycle", None, QtGui.QApplication.UnicodeUTF8))
         self.mainTabWidget.setTabText(self.mainTabWidget.indexOf(self.sequenceTab), QtGui.QApplication.translate("MainWindow", "Sequence", None, QtGui.QApplication.UnicodeUTF8))
         self.label_99.setText(QtGui.QApplication.translate("MainWindow", "Lock", None, QtGui.QApplication.UnicodeUTF8))
         self.label_100.setText(QtGui.QApplication.translate("MainWindow", "Unlock", None, QtGui.QApplication.UnicodeUTF8))
