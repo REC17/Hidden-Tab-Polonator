@@ -1,3 +1,31 @@
+# The MIT License
+#
+# Copyright (c) 2011 Wyss Institute at Harvard University
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in
+# all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+# THE SOFTWARE.
+#
+# http://www.opensource.org/licenses/mit-license.php
+"""
+sequenceTab.py
+
+Created by Roger Conturie on 2011-07-25.
+"""
 import os
 import sys
 import json
@@ -72,6 +100,10 @@ class seqTab:
     def start(self):
         print 'start'
         touchFlag = "0"
+        for i in range(self.cycleTable.rowCount()):
+            print self.cycleTable.item(i,0).text() + \
+                    self.cycleTable.item(i,1).text() + \
+                    self.cycleTable.item(i,2).text()
         '''
         try:
             with open("/home/polonator/G.007/G.007_fluidics/src/cycle_list", "w") as outfile:
@@ -102,13 +134,9 @@ class seqTab:
                 isEmpty = False
                 for j in range(3):
                     if self.cycleTable.item(i,j).text() == '':
-                        self.seqStartPB.setEnabled(False)
-                        self.warningDialog = WarningDialog(\
+                        self.validateWarning(\
                             'Cell (%(i)s, %(j)s) is empty' %{'i':str(i+1),\
                              'j':str(j+1)}, None)
-                        self.warningDialog.cancelButton.hide()             
-                        self.warningDialog.show()
-                        self.seqStartPB.setEnabled(False)
                         breakAll = True                        
                         break
 
@@ -116,98 +144,52 @@ class seqTab:
                     break
 
                 if len(self.cycleTable.item(i, 0).text()) > 1:
-                    self.seqStartPB.setEnabled(False)
-                    self.warningDialog = WarningDialog(\
-                        'Expected a single letter between "A" and "Z" in cell\
-                        (%(i)s, 1) (not case sensitive)' %{'i':str(i+1)}, None)
-                    self.warningDialog.cancelButton.hide()             
-                    self.warningDialog.show()
-                    self.seqStartPB.setEnabled(False)
-                    breakAll = True                        
+                    self.validateWarning(\
+                        'Expected a single letter between "A" and "Z" in cell'+\
+                        '(%(i)s, 1) (not case sensitive)' %{'i':str(i+1)})
                     break
 
                 if not (ord('A') <= ord(str(self.cycleTable.item(i, 0).text()))\
                         <= ord('Z') or\
                         ord('a') <= ord(str(self.cycleTable.item(i, 0).text()))\
                         <= ord('z')):
-                    self.seqStartPB.setEnabled(False)
-                    self.warningDialog = WarningDialog(\
-                        'Expected a single letter between "A" and "Z" in cell\
-                        (%(i)s, 2) (not case sensitive)' %{'i':str(i+1)}, None)
-                    self.warningDialog.cancelButton.hide()             
-                    self.warningDialog.show()
-                    self.seqStartPB.setEnabled(False)
-                    breakAll = True                        
+                    self.validateWarning(\
+                        'Expected a single letter between "A" and "Z" in cell'+\
+                        '(%(i)s, 2) (not case sensitive)' %{'i':str(i+1)})
                     break
     
                 if str(self.cycleTable.item(i, 1).text()) != 'P' and\
                         str(self.cycleTable.item(i, 1).text()) != 'p' and\
                         str(self.cycleTable.item(i, 1).text()) != 'M' and\
                         str(self.cycleTable.item(i, 1).text()) != 'm':
-                    self.seqStartPB.setEnabled(False)
-                    self.warningDialog = WarningDialog(\
-                        'Expected either a "P" or "M" in cell (%(i)s, 2)\
-                        (not case sensitive)'%{'i':str(i+1)}, None)
-                    self.warningDialog.cancelButton.hide()             
-                    self.warningDialog.show()
-                    self.seqStartPB.setEnabled(False)
-                    breakAll = True                        
+                    self.validateWarning(\
+                        'Expected either a "P" or "M" in cell'+\
+                        '(%(i)s, 2)(not case sensitive)'%{'i':str(i+1)})
                     break
 
                 try:
                     int(str(self.cycleTable.item(i, 2).text()))
                 except:
-                    self.seqStartPB.setEnabled(False)
-                    self.warningDialog = WarningDialog(\
+                    self.validateWarning(\
                         'Expected an integer in cell (%(i)s, 3)'\
-                                    %{'i':str(i+1)}, None)
-                    self.warningDialog.cancelButton.hide()             
-                    self.warningDialog.show()
-                    self.seqStartPB.setEnabled(False)
-                    breakAll = True                        
+                                    %{'i':str(i+1)})
                     break
 
-
-
         if isEmpty == True:
-            self.warningDialog = WarningDialog(\
-            'Cycle list is empty!', None)
-            self.warningDialog.cancelButton.hide()             
-            self.warningDialog.show()
-            self.seqStartPB.setEnabled(False)
+            self.validateWarning('Cycle list is empty!')
 
-            #if valid == True:
-            #    self.seqStartPB.setEnabled(True)
-        #print self.polonatorCycleListVector
-        # validate each line; keep track if we need to change something
-        """
-        if len(self.polonatorCycleListVector) == 0:
-            changed = True
-        else:
-            for cycle in self.polonatorCycleListVector:
-                if len(cycle) > 4:
-                    cycle = cycle[:4]
-                    changed = True
-                if len(cycle) >= 3:
-                    validateList.append(cycle)
-                else:
-                    changed = True
-        self.polonatorCycleListVector = []
-        for cycle in validateList:
-            self.polonatorCycleListVector.append(cycle) 
-        if changed:
-            pass
-        else:
-            
-        """
+    def validateWarning(self, message):
+        self.seqStartPB.setEnabled(False)
+        self.warningDialog = WarningDialog(message, None)
+        self.warningDialog.cancelButton.hide()             
+        self.warningDialog.show()
+
     def clear(self):
-        self.warningDialog = WarningDialog('Are you sure that you want to clear\
-                                                the cycle list?', self.okClear)
-        #self.warningDialog.setMessage()
+        self.warningDialog = WarningDialog('Are you sure that you want to'+\
+                                        ' clear the cycle list?', self.okClear)
         self.warningDialog.show()
 
     def okClear(self):
-        print 'clear'
         self.cycleTable.clearContents()
         while len(self.baseClassL) != 0:
             #Make sure to remove all repeats, base select turns bases purple
