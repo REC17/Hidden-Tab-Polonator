@@ -93,6 +93,11 @@ class seqTab:
         self.clearSelectionPB.pressed.connect(self.clear)
         self.applyPB.pressed.connect(self.applySeq)
         self.applyRepeatPB.pressed.connect(self.applyRepeatSeq)
+        #prevent user from starting invalid cycle
+        self.cycleTable.cellChanged.connect(self.disableStart)
+
+    def disableStart(self):
+        self.seqStartPB.setEnabled(False)
 
     def abort(self):
         print 'abort'
@@ -101,9 +106,15 @@ class seqTab:
         print 'start'
         touchFlag = "0"
         for i in range(self.cycleTable.rowCount()):
-            print self.cycleTable.item(i,0).text() + \
-                    self.cycleTable.item(i,1).text() + \
-                    self.cycleTable.item(i,2).text()
+            if self.cycleTable.item(i,0).text() != '':
+                print self.cycleTable.item(i,0).text() + \
+                        self.cycleTable.item(i,1).text() + \
+                        self.cycleTable.item(i,2).text()
+
+        cmd = 'python ' + _root_dir + '/pol_API/G.007_fluidics/src/polonator_main.py ' + touchFlag
+#        os.system(cmd)
+        print cmd
+  
         '''
         try:
             with open("/home/polonator/G.007/G.007_fluidics/src/cycle_list", "w") as outfile:
@@ -136,7 +147,7 @@ class seqTab:
                     if self.cycleTable.item(i,j).text() == '':
                         self.validateWarning(\
                             'Cell (%(i)s, %(j)s) is empty' %{'i':str(i+1),\
-                             'j':str(j+1)}, None)
+                             'j':str(j+1)})
                         breakAll = True                        
                         break
 
