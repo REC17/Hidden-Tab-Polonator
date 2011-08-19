@@ -50,16 +50,15 @@ class Polonator(QMainWindow, ui_htPol.Ui_MainWindow):
             self.cycleTable.setColumnWidth(i, columnWidth - 15)
 
         self.polonatorCycleListVector = []
-        '''
+
         self.currentDir = os.getcwd()
         try:
             os.mkdir(self.currentDir+"/.config")
             f = file(self.currentDir+"/.config/.polGV.cfg", 'w')
-            seqList = ['SNNNNNNNNNNNNNNNNNNNN', 'PATCATGCCATTCATG', 'SNNNNNNNNNNNNNNNNNNNN', 'PATCATGCCATTCATG','SNNNNNNNNNNNNNNNNNNNN', 'PATCATGCCATTCATG', 'SNNNNNNNNNNNNNNNNNNNN' ]
-            json.dump(seqList, f)
+            json.dump('None', f)
         except:
             pass
-        '''
+
         self.setContextMenuPolicy(Qt.CustomContextMenu)
       #  self.sequenceGraphicsView.mousePressEvent = self.graphicsViewMousePress
       #  self.sequenceGraphicsView.setRubberBandSelectionMode(Qt.IntersectsItemShape)
