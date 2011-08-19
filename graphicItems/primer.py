@@ -62,8 +62,6 @@ class Primer(QGraphicsItem):
         self.minusLabel.setParentItem(self)
         self.primerLabel.setParentItem(self)
 
-
-        
         self.minusLabel.setPos(0, 15)
         self.plusLabel.setPos(12*len(self.seq)- self.plusLabel.boundingRect().width(), 15)
         self.primerLabel.setPos(12*len(self.seq)/2, 28)

@@ -39,6 +39,7 @@ from tabControllers.sequenceTab import seqTab
 from tabControllers.maestroTab import maestroTab
 from tabControllers.chemistryTab import chemTab
 from tabControllers.imagingTab import imgTab
+from menuControllers.menuBehavior import MenuBehavior
 
 class Polonator(QMainWindow, ui_htPol.Ui_MainWindow):
     def __init__(self, parent=None):
@@ -49,6 +50,7 @@ class Polonator(QMainWindow, ui_htPol.Ui_MainWindow):
             self.cycleTable.setColumnWidth(i, columnWidth - 15)
 
         self.polonatorCycleListVector = []
+        '''
         self.currentDir = os.getcwd()
         try:
             os.mkdir(self.currentDir+"/.config")
@@ -57,7 +59,7 @@ class Polonator(QMainWindow, ui_htPol.Ui_MainWindow):
             json.dump(seqList, f)
         except:
             pass
-
+        '''
         self.setContextMenuPolicy(Qt.CustomContextMenu)
       #  self.sequenceGraphicsView.mousePressEvent = self.graphicsViewMousePress
       #  self.sequenceGraphicsView.setRubberBandSelectionMode(Qt.IntersectsItemShape)
@@ -78,6 +80,7 @@ class Polonator(QMainWindow, ui_htPol.Ui_MainWindow):
         self.imgTab = imgTab(self)
 #    def graphicsViewMousePress(self, event):    
 #        self.sequenceGraphicsView.held = True    
+        self.menuBehavior = MenuBehavior(self)
 
     def proMode(self):
         self.tabWidget_4.insertTab(1, self.tab_10, QString('Maintenence'))

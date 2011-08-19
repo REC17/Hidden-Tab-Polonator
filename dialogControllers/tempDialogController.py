@@ -31,6 +31,8 @@ Created by Roger Conturie on 2011-08-17.
 import os
 import sys
 import json
+from PyQt4.QtCore import *
+from PyQt4.QtGui import *
 
 #add root directory to path
 _root_dir = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
@@ -38,8 +40,6 @@ sys.path.insert(0, _root_dir)
 
 from ui.warningDialog import WarningDialog
 from ui import ui_tempDesign
-from PyQt4.QtCore import *
-from PyQt4.QtGui import *
 
 class typeCB(QComboBox):
     def __init__(self, row, controller, parent = None):
@@ -54,8 +54,6 @@ class typeCB(QComboBox):
     def indexChangeEvent(self):
         #Table is grandparent of combobox
         table = self.parent().parent()
-        print self.row
-        print table.rowCount()
         table.item(self.row, 1).setText(QString(''))
         self.controller.primerLabelUpdate()
         self.controller.savedFlag = False
@@ -67,10 +65,19 @@ class TDController(QMainWindow, ui_tempDesign.Ui_Dialog):
         self.openPath = None
         self.warningDialog = None
         self.tempDesignTable.setColumnWidth(2, 290)
+        self.setWindowTitle('Template Design')
+#        self.tempDesignTable.setDragEnabled(True)
+#        self.tempDesignTable.setDragDropOverwriteMode(False)
+#        self.tempDesignTable.DropIndicatorPosition(QAbstractItemView.BelowItem)
+#        self.tempDesignTable.setDragDropMode(QAbstractItemView.DragDrop)
+#        self.tempDesignTable.setSelectionBehavior(QAbstractItemView.SelectRows)
         self.establishConnections()
+
+        
 
         self.addNewSequence('NNNNNNNNNNNNNNNNNNNN', 'S')
         self.savedFlag = True
+        self.saveEnable = True
         self.editPosCB.setCurrentIndex(self.editPosCB.currentIndex() + 1)
 
     def establishConnections(self):
@@ -85,7 +92,16 @@ class TDController(QMainWindow, ui_tempDesign.Ui_Dialog):
 
     def cellChangeEvent(self, row, column):
         self.savedFlag = False
- 
+        self.saveEnable = True
+        if column == 2 and \
+            len(self.tempDesignTable.item(row, column).text()) < 20:
+            self.tempDesignTable.item(row, column).setBackground(QBrush(QColor(200, 35, 35)))
+            self.saveEnable = False
+        else:
+            self.tempDesignTable.item(row, column).setBackground(QBrush(QColor(255, 255, 255)))
+
+
+
     def primerLabelUpdate(self):
         index = 65
         for row in range(self.tempDesignTable.rowCount()):
@@ -99,8 +115,6 @@ class TDController(QMainWindow, ui_tempDesign.Ui_Dialog):
     def addSeq(self):
         self.addNewSequence('NNNNNNNNNNNNNNNNNNNN', 'S')
 
-
-
     def addNewSequence(self, sequence, seqType):
         row = self.editPosCB.currentIndex() + 1
 
@@ -113,21 +127,15 @@ class TDController(QMainWindow, ui_tempDesign.Ui_Dialog):
         getattr(self, str(row)+'1').setFlags(Qt.NoItemFlags)
         self.tempDesignTable.setItem(row, 1, getattr(self, str(row)+'1'))
         self.tempDesignTable.setItem(row, 2, getattr(self, str(row)+'2'))
-
         self.tempDesignTable.setCellWidget(row , 0, typeCB(row, self))
 
         #Reassign Class Names to reflect rearrangement
-        
         if row + 1 < self.tempDesignTable.rowCount():
             for missRow in range(self.tempDesignTable.rowCount() - row):
                 newRow = self.tempDesignTable.rowCount() - missRow - 1
                 setattr(self, str(newRow) + '1', getattr(self, str(newRow - 1)+'1'))
                 setattr(self, str(newRow) +'2', getattr(self, str(newRow - 1)+'2'))
                 self.tempDesignTable.cellWidget(newRow, 0).row = newRow
-#                self.tempDesignTable.setCellWidget(newRow , 0, typeCB(newRow, self))
-        
-
-
 
         if seqType == 'P':
             self.tempDesignTable.cellWidget(row, 0).setCurrentIndex(1)
@@ -150,39 +158,6 @@ class TDController(QMainWindow, ui_tempDesign.Ui_Dialog):
 
         self.primerLabelUpdate()
         self.savedFlag = False
-        '''
-        if self.tempDesignTable.rowCount() > 1:
-            self.tempDesignTable.setRowCount(self.tempDesignTable.rowCount()-1)
-
-        '''
-
-#self.rmPosCB
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     def newTemp(self):
@@ -219,19 +194,29 @@ class TDController(QMainWindow, ui_tempDesign.Ui_Dialog):
         self.savedFlag = True
 
     def saveTemp(self):
-        if self.openPath == None:
-            self.saveTempAs()
+        if self.saveEnable == True:
+            if self.openPath == None:
+                self.saveTempAs()
+            else:
+                self.saveFile(self.openPath)
         else:
-            self.saveFile(self.openPath)
+            self.warningDialog = WarningDialog('Make sure no sequences are'\
+                                +' less than 20 bp in length', None)
+            self.warningDialog.show()
 
     def saveTempAs(self):
-        self.openPath = QFileDialog.getSaveFileName(self, \
-                            "Save File As", _root_dir + '/templateSchemes/' , \
-                            QString("Schemes (*.cfg)"))
-        try:
-            self.saveFile(self.openPath)
-        except:
-            pass
+        if self.saveEnable == True:
+            self.openPath = QFileDialog.getSaveFileName(self, \
+                                "Save File As", _root_dir + '/templateSchemes/' , \
+                                QString("Schemes (*.cfg)"))
+            try:
+                self.saveFile(self.openPath)
+            except:
+                pass
+        else:
+            self.warningDialog = WarningDialog('Make sure no sequences are'\
+                                +' less than 20 bp in length', None)
+            self.warningDialog.show()
 
     def saveFile(self, path):
         seqList = []
@@ -246,11 +231,3 @@ class TDController(QMainWindow, ui_tempDesign.Ui_Dialog):
         f = file(self.openPath, 'w')
         json.dump(seqList, f)
         self.savedFlag = True
-    
-if __name__ == "__main__":
-    import sys
-    # add comments as to what this specifically does
-    app = QApplication(sys.argv)
-    form = TDController()
-    form.show()
-    app.exec_()

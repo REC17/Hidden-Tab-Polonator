@@ -78,7 +78,7 @@ class seqTab:
         self.sequenceGraphicsView.setScene(self.seqScene)
         self.sequenceGraphicsView.mouseReleaseEvent = self.graphicsViewMouseRelease
         self.sequenceGraphicsView.setRubberBandSelectionMode(Qt.ContainsItemBoundingRect)
-        self.addSequence()
+        #self.addSequence()
 
         #initialize table widget
         self.updateCycleList()
@@ -295,10 +295,11 @@ class seqTab:
             #update cycle list
 
 
-    def addSequence(self):
+    def addSequence(self, path):
         
         xpos = 5
-        f = file(_root_dir+"/.config/.polGV.cfg", 'r')
+
+        f = file(path, 'r')
         seqList = json.load(f)
         #seqListRel is for enabling relationships between sequences and primers
         seqListRel = seqList
@@ -313,8 +314,9 @@ class seqTab:
                 primerLabelIndex = primerLabelIndex + 1
             xpos = xpos + 12*len(seq[1:])
         
+        #Debug for garbage collection issue
         del seqList
-        f = file(_root_dir+"/.config/.polGV.cfg", 'r')
+        f = file(path, 'r')
         seqList = json.load(f)
 
         xpos = 5

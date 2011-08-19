@@ -140,7 +140,7 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
         <x>11</x>
@@ -324,7 +324,7 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
         <x>11</x>
@@ -1610,13 +1610,13 @@
        </rect>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="manReactTab">
        <attribute name="title">
         <string>Manual Reaction</string>
        </attribute>
-       <widget class="QWidget" name="">
+       <widget class="QWidget" name="layoutWidget">
         <property name="geometry">
          <rect>
           <x>0</x>
@@ -2735,7 +2735,7 @@
          <string>Four Color Image</string>
         </property>
        </widget>
-       <widget class="QWidget" name="">
+       <widget class="QWidget" name="layoutWidget">
         <property name="geometry">
          <rect>
           <x>10</x>
@@ -2899,7 +2899,7 @@
          </item>
         </layout>
        </widget>
-       <widget class="QWidget" name="">
+       <widget class="QWidget" name="layoutWidget">
         <property name="geometry">
          <rect>
           <x>10</x>
@@ -3218,7 +3218,7 @@
        <attribute name="title">
         <string>Live Image</string>
        </attribute>
-       <widget class="QWidget" name="">
+       <widget class="QWidget" name="layoutWidget">
         <property name="geometry">
          <rect>
           <x>10</x>
@@ -3505,8 +3505,17 @@
     <property name="title">
      <string>Sequence</string>
     </property>
+    <widget class="QMenu" name="menuSequence_Layout">
+     <property name="title">
+      <string>Sequence Layout</string>
+     </property>
+     <addaction name="actionDesign_New_Layout"/>
+     <addaction name="actionLoad_Layout"/>
+    </widget>
+    <addaction name="actionSave_Cycle_List"/>
+    <addaction name="actionSave_Cycle_List_As"/>
     <addaction name="actionLoad_Cycle_List"/>
-    <addaction name="actionLoad_Chemistry_Layout"/>
+    <addaction name="menuSequence_Layout"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuSequence"/>
@@ -3522,9 +3531,24 @@
     <string>Load Cycle List</string>
    </property>
   </action>
-  <action name="actionLoad_Chemistry_Layout">
+  <action name="actionSave_Cycle_List">
    <property name="text">
-    <string>Load Sequence Layout</string>
+    <string>Save Cycle List</string>
+   </property>
+  </action>
+  <action name="actionSave_Cycle_List_As">
+   <property name="text">
+    <string>Save Cycle List As...</string>
+   </property>
+  </action>
+  <action name="actionDesign_New_Layout">
+   <property name="text">
+    <string>Design New Layout</string>
+   </property>
+  </action>
+  <action name="actionLoad_Layout">
+   <property name="text">
+    <string>Load Layout</string>
    </property>
   </action>
  </widget>
