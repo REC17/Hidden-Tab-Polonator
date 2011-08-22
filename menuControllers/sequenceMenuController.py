@@ -69,7 +69,40 @@ class SeqMenuController(QWidget):
         self.actionClear_Layout.triggered.connect(self.clearLayout)
 
     def mapCtoT(self):
-        print 'map!'
+        #if execute validation returns true, attempt to map the valid list back
+        #to the template
+        print self.seqTab.functions.executeValidation()
+        if self.seqTab.functions.executeValidation():
+            try:
+                print 'validation returned true!'
+                primerList = []
+                baseDictionary = {}
+
+                for item in self.seqTab.seqScene.items():
+                    if item.__class__.__name__ == 'Primer':
+                        primerList.append(item)
+                    if item.__class__.__name__ == 'Base'\
+                        and item.primer != None:
+                        item.determinePosition()
+                        if item.parentItem().pos().x() > item.primer.pos().x():
+                            cycle = item.primer.primerLetter + 'P' + str(item.position)
+                            baseDictionary.update({cycle : item})
+                        else:
+                            cycle = item.primer.primerLetter + 'M' + str(item.position)
+                            baseDictionary.update({cycle : item})
+
+                for i in range(self.seqTab.cycleTable.rowCount()):
+                    if self.seqTab.cycleTable.item(i,0).text() != '':
+                        cycle = self.seqTab.cycleTable.item(i,0).text() + \
+                                self.seqTab.cycleTable.item(i,1).text() + \
+                                self.seqTab.cycleTable.item(i,2).text()
+                        baseDictionary[str(cycle)].baseSelect()
+
+            except:
+                self.warningDialog = WarningDialog('Detected incompatibility' +\
+                                    ' between cycle list and template', None)
+                self.warningDialog.cancelButton.hide()             
+                self.warningDialog.show()
 
     def clearLayout(self):
         for item in self.seqTab.seqScene.items():
@@ -113,7 +146,7 @@ class SeqMenuController(QWidget):
       #  except:
       #      print 'sequence layout fail'
 
-        self.seqTab.updateCycleList(False)
+        self.seqTab.functions.updateCycleList(False)
 
     def designNewLayout(self):
         designWindow = TDController()

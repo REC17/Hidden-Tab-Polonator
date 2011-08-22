@@ -140,68 +140,8 @@ class seqTab:
         #  self.process_start(cmd, ['pass'], "self.process_pass()")   
         '''
     def validate(self):
-        breakAll = False
-        isEmpty = True
-        validateList = []
         self.seqStartPB.setEnabled(True)
-        for i in range(self.cycleTable.rowCount()):
-            if self.cycleTable.item(i, 0).text() == '' and \
-                    self.cycleTable.item(i, 1).text() == '' and \
-                    self.cycleTable.item(i, 2).text() == '':
-                pass
-            else:
-                isEmpty = False
-                for j in range(3):
-                    if self.cycleTable.item(i,j).text() == '':
-                        self.validateWarning(\
-                            'Cell (%(i)s, %(j)s) is empty' %{'i':str(i+1),\
-                             'j':str(j+1)})
-                        breakAll = True                        
-                        break
-
-                if breakAll == True:
-                    break
-
-                if len(self.cycleTable.item(i, 0).text()) > 1:
-                    self.validateWarning(\
-                        'Expected a single letter between "A" and "Z" in cell'+\
-                        '(%(i)s, 1) (not case sensitive)' %{'i':str(i+1)})
-                    break
-
-                if not (ord('A') <= ord(str(self.cycleTable.item(i, 0).text()))\
-                        <= ord('Z') or\
-                        ord('a') <= ord(str(self.cycleTable.item(i, 0).text()))\
-                        <= ord('z')):
-                    self.validateWarning(\
-                        'Expected a single letter between "A" and "Z" in cell'+\
-                        '(%(i)s, 2) (not case sensitive)' %{'i':str(i+1)})
-                    break
-    
-                if str(self.cycleTable.item(i, 1).text()) != 'P' and\
-                        str(self.cycleTable.item(i, 1).text()) != 'p' and\
-                        str(self.cycleTable.item(i, 1).text()) != 'M' and\
-                        str(self.cycleTable.item(i, 1).text()) != 'm':
-                    self.validateWarning(\
-                        'Expected either a "P" or "M" in cell'+\
-                        '(%(i)s, 2)(not case sensitive)'%{'i':str(i+1)})
-                    break
-
-                try:
-                    int(str(self.cycleTable.item(i, 2).text()))
-                except:
-                    self.validateWarning(\
-                        'Expected an integer in cell (%(i)s, 3)'\
-                                    %{'i':str(i+1)})
-                    break
-
-        if isEmpty == True:
-            self.validateWarning('Cycle list is empty!')
-
-    def validateWarning(self, message):
-        self.seqStartPB.setEnabled(False)
-        self.warningDialog = WarningDialog(message, None)
-        self.warningDialog.cancelButton.hide()             
-        self.warningDialog.show()
+        self.functions.executeValidation()
 
     def clear(self):
         self.warningDialog = WarningDialog('Are you sure that you want to'+\

@@ -47,7 +47,7 @@ class SeqTabFunctions():
     def __init__(self, seqTab, parent = None):
 
         self.seqTab = seqTab
-        pass
+        self.valid = True
 
     def addSequence(self, path):
 
@@ -159,3 +159,71 @@ class SeqTabFunctions():
         #    self.seqTab.cycleTable.scrollToItem(getattr(self.seqTab, cycle + 'Pr'))
         #except:
         #    pass
+
+    def executeValidation(self):
+        breakAll = False
+        isEmpty = True
+        validateList = []
+        for i in range(self.seqTab.cycleTable.rowCount()):
+            if self.seqTab.cycleTable.item(i, 0).text() == '' and \
+                    self.seqTab.cycleTable.item(i, 1).text() == '' and \
+                    self.seqTab.cycleTable.item(i, 2).text() == '':
+                pass
+            else:
+                isEmpty = False
+                for j in range(3):
+                    if self.seqTab.cycleTable.item(i,j).text() == '':
+                        self.validateWarning(\
+                            'Cell (%(i)s, %(j)s) is empty' %{'i':str(i+1),\
+                             'j':str(j+1)})
+                        breakAll = True                        
+                        break
+
+                if breakAll == True:
+                    break
+
+                if len(self.seqTab.cycleTable.item(i, 0).text()) > 1:
+                    self.validateWarning(\
+                        'Expected a single letter between "A" and "Z" in cell'+\
+                        '(%(i)s, 1) (not case sensitive)' %{'i':str(i+1)})
+                    break
+
+                if not (ord('A') <= ord(str(self.seqTab.cycleTable.item(i, 0).text()))\
+                        <= ord('Z') or\
+                        ord('a') <= ord(str(self.seqTab.cycleTable.item(i, 0).text()))\
+                        <= ord('z')):
+                    self.validateWarning(\
+                        'Expected a single letter between "A" and "Z" in cell'+\
+                        '(%(i)s, 2) (not case sensitive)' %{'i':str(i+1)})
+                    break
+    
+                if str(self.seqTab.cycleTable.item(i, 1).text()) != 'P' and\
+                        str(self.seqTab.cycleTable.item(i, 1).text()) != 'p' and\
+                        str(self.seqTab.cycleTable.item(i, 1).text()) != 'M' and\
+                        str(self.seqTab.cycleTable.item(i, 1).text()) != 'm':
+                    self.validateWarning(\
+                        'Expected either a "P" or "M" in cell'+\
+                        '(%(i)s, 2)(not case sensitive)'%{'i':str(i+1)})
+                    break
+
+                try:
+                    int(str(self.seqTab.cycleTable.item(i, 2).text()))
+                except:
+                    self.validateWarning(\
+                        'Expected an integer in cell (%(i)s, 3)'\
+                                    %{'i':str(i+1)})
+                    break
+
+        if isEmpty == True:
+            self.validateWarning('Cycle list is empty!')
+
+        rvalid = self.valid
+        self.valid = True
+        return rvalid
+
+    def validateWarning(self, message):
+        self.valid = False
+        self.seqTab.seqStartPB.setEnabled(False)
+        self.seqTab.warningDialog = WarningDialog(message, None)
+        self.seqTab.warningDialog.cancelButton.hide()             
+        self.seqTab.warningDialog.show()

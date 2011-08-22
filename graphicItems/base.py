@@ -53,18 +53,18 @@ class Base(QGraphicsItem):
         self.seqGraphic.setParentItem(self)
         self.seqGraphic.setPos(1, -3)
         
-
+    def determinePosition(self):
+        if self.pos().x()/12 < self.parentItem().boundingRect().width()/24:
+            self.position = str(int(1 + self.pos().x()/12))
+        else:
+            self.position = str(int(20 - self.pos().x()/12))       
 
     def mousePressEvent(self, event):
         self.baseSelect()
 
     def baseSelect(self):
-     #   if self.parentItem().__class__.__name__ != 'Primer':
-        if self.pos().x()/12 < self.parentItem().boundingRect().width()/24:
-            self.position = str(int(1 + self.pos().x()/12))
-        else:
-            self.position = str(int(20 - self.pos().x()/12))
-
+     #   if self.parentItem().__class__.__name__ != 'Primer':\
+        self.determinePosition()
         if self.primer != None:
             if self.fill == self.purple:
                 self.fill = self.red
