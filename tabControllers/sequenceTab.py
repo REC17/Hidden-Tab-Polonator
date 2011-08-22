@@ -37,6 +37,7 @@ sys.path.insert(0, _root_dir)
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 
+from seqTabFunctions import SeqTabFunctions
 from graphicItems.primer import Primer
 from graphicItems.seqFunc import SeqFunc
 from graphicItems.sequence import Sequence
@@ -46,8 +47,9 @@ class seqTab:
     def __init__(self, mainWin, parent=None):
 
         self.mainWin = mainWin
+        self.functions = SeqTabFunctions(self)
 
-        self.abortButton = self.mainWin.abortButton
+
         self.seqStartPB = self.mainWin.seqStartPB
         self.seqStartPB.setEnabled(False)
         self.includeHomeAxisRB = self.mainWin.includeHomeAxisRB
@@ -69,6 +71,7 @@ class seqTab:
         self.sortBaseL = []
         self.sortedCyclesL = []
         self.sortCycleD = {}
+        self.seqList = []
         self.polonatorCycleListVector = self.mainWin.polonatorCycleListVector
 
         self.seqScene = QGraphicsScene()
@@ -78,16 +81,24 @@ class seqTab:
         self.sequenceGraphicsView.setScene(self.seqScene)
         self.sequenceGraphicsView.mouseReleaseEvent = self.graphicsViewMouseRelease
         self.sequenceGraphicsView.setRubberBandSelectionMode(Qt.ContainsItemBoundingRect)
-        #self.addSequence()
+
+        #load most recent template
+        f = file(_root_dir + "/.config/.polGV.cfg", 'r')
+        path = json.load(f)
+        if path != 'None':
+            try:    
+                self.functions.addSequence(path)
+            except:
+                f = file(_root_dir + "/.config/.polGV.cfg", 'w')
+                json.dump('None', f)
 
         #initialize table widget
-        self.updateCycleList()
+        self.functions.updateCycleList(True)
 
         self.establishConnections()
 
 
     def establishConnections(self):
-        self.abortButton.pressed.connect(self.abort)
         self.seqStartPB.pressed.connect(self.start)
         self.cycleEntryValidatePB.pressed.connect(self.validate)
         self.clearSelectionPB.pressed.connect(self.clear)
@@ -98,9 +109,6 @@ class seqTab:
 
     def disableStart(self):
         self.seqStartPB.setEnabled(False)
-
-    def abort(self):
-        print 'abort'
 
     def start(self):
         print 'start'
@@ -206,13 +214,13 @@ class seqTab:
             #Make sure to remove all repeats, base select turns bases purple
             self.baseClassL[0].fill = self.baseClassL[0].red
             self.baseClassL[0].baseSelect()
-        self.updateCycleList()
+        self.functions.updateCycleList(True)
         self.applyPB.setEnabled(False)
         self.applyRepeatPB.setEnabled(False)
         self.warningDialog = None
 
     def applySeq(self):
-        self.updateCycleList()
+        self.functions.updateCycleList(True)
         self.applyPB.setEnabled(False)
         self.applyRepeatPB.setEnabled(True)
 
@@ -223,8 +231,8 @@ class seqTab:
                 baseClassLPreserve.append(base)
         for base in baseClassLPreserve:
             self.baseClassL.append(base)
-        self.updateCycleList()
-        
+        self.functions.updateCycleList(True)
+
     def graphicsViewMouseRelease(self, event):
         #Create cycle name from base
         if len(self.sortBaseL) != 0:
@@ -293,102 +301,5 @@ class seqTab:
             self.applyPB.setEnabled(True)
 
             #update cycle list
-
-
-    def addSequence(self, path):
-        
-        xpos = 5
-
-        f = file(path, 'r')
-        seqList = json.load(f)
-        #seqListRel is for enabling relationships between sequences and primers
-        seqListRel = seqList
-
-        primerLabelIndex = 65
-        for i in range(len(seqList)):
-            seq = seqList[i]
-            if seq[0] == 'P':
-                setattr(self, 'seq%s'%str(xpos), Primer(self, seq[1:], [xpos, 30], chr(primerLabelIndex)))
-                self.seqScene.addItem(getattr(self, 'seq%s'%str(xpos)))
-                seqListRel[i] = getattr(self, 'seq%s'%str(xpos))         
-                primerLabelIndex = primerLabelIndex + 1
-            xpos = xpos + 12*len(seq[1:])
-        
-        #Debug for garbage collection issue
-        del seqList
-        f = file(path, 'r')
-        seqList = json.load(f)
-
-        xpos = 5
-
-        for i in range(len(seqList)):
-            seq = seqList[i]
-            plusPrimer = None
-            minusPrimer = None
-            if i > 0:
-                try:
-                    plusPrimer = seqListRel[i-1]
-                except:
-                    pass
-            if i < len(seqList)-1:
-                try:
-                    minusPrimer = seqListRel[i+1]
-                except:
-                    pass
-
-            if seq[0] == 'S':
-                setattr(self, 'seq%s'%str(xpos), Sequence(self, seq[1:], [xpos, 30], minusPrimer, plusPrimer))
-                self.seqScene.addItem(getattr(self, 'seq%s'%str(xpos)))
-            xpos = xpos + 12*len(seq[1:])
-        self.seqScene.setSceneRect(QRectF(0, 0, xpos, self.sequenceGraphicsView.height()))
-
-    def updateCycleList(self):
-        self.seqStartPB.setEnabled(False)
-        # Initialize Table and List Vector
-        self.polonatorCycleListVector = []
-        self.cycleTable.clearContents()
-
-        # Manage Table Size
-        if self.cycleTable.rowCount() < len(self.baseClassL):
-            for i in range(len(self.baseClassL)-self.cycleTable.rowCount()):            
-                self.cycleTable.insertRow(10+i)
-        elif self.cycleTable.rowCount() > 10 and self.cycleTable.rowCount() > len(self.baseClassL):
-            for i in range(self.cycleTable.rowCount() - len(self.baseClassL)):
-                if self.cycleTable.rowCount() > 10:
-                    self.cycleTable.removeRow(self.cycleTable.rowCount() - (i+1))
-                
-        # Replace table widget items so they don't return as none
-        for row in range(10):
-            self.cycleTable.setItem(row, 0, QTableWidgetItem(QString('')))
-            self.cycleTable.setItem(row, 1, QTableWidgetItem(QString('')))
-            self.cycleTable.setItem(row, 2, QTableWidgetItem(QString('')))
-
-        # Create Cycle Names (tuple object)
-        for base in self.baseClassL:
-            if base.parentItem().pos().x() > base.primer.pos().x():
-                cycle = base.primer.primerLetter, 'P', base.position
-            else:
-                cycle = base.primer.primerLetter, 'M', base.position
-
-            self.polonatorCycleListVector.append(cycle)
-
-        # Populate Table
-        row = 0
-        for cycle in self.polonatorCycleListVector:
-            setattr(self, cycle[0] + cycle[1] + cycle[2] + 'Pr', QTableWidgetItem(QString(cycle[0]), QTableWidgetItem.Type))
-            setattr(self, cycle[0] + cycle[1] + cycle[2] + 'D', QTableWidgetItem(QString(cycle[1]), QTableWidgetItem.Type))
-            setattr(self, cycle[0] + cycle[1] + cycle[2] + 'Po', QTableWidgetItem(QString(cycle[2]), QTableWidgetItem.Type))
-
-            self.cycleTable.setItem(row, 0, getattr(self, cycle[0] + cycle[1] + cycle[2] + 'Pr'))
-            self.cycleTable.setItem(row, 1, getattr(self, cycle[0] + cycle[1] + cycle[2] + 'D'))
-            self.cycleTable.setItem(row, 2, getattr(self, cycle[0] + cycle[1] + cycle[2] + 'Po'))
-
-            row = row + 1
-        
-        # Auto Scroll To Last Item Feature
-        #try:
-        #    self.cycleTable.scrollToItem(getattr(self, cycle + 'Pr'))
-        #except:
-        #    pass
 
 

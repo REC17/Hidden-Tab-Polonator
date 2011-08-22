@@ -73,8 +73,6 @@ class TDController(QMainWindow, ui_tempDesign.Ui_Dialog):
 #        self.tempDesignTable.setSelectionBehavior(QAbstractItemView.SelectRows)
         self.establishConnections()
 
-        
-
         self.addNewSequence('NNNNNNNNNNNNNNNNNNNN', 'S')
         self.savedFlag = True
         self.saveEnable = True
@@ -187,7 +185,7 @@ class TDController(QMainWindow, ui_tempDesign.Ui_Dialog):
                             QString("Schemes (*.cfg)"))
         self.tempDesignTable.setRowCount(0)
         f = file(self.openPath, 'r')
-        seqList = json.load(f)
+        seqList = json.load(f)[1]
         for row in range(len(seqList)):
             self.addNewSequence(seqList[row][1:], seqList[row][0])
         self.primerLabelUpdate()
@@ -228,6 +226,6 @@ class TDController(QMainWindow, ui_tempDesign.Ui_Dialog):
                 seq = 'S'
             seq = seq + str(self.tempDesignTable.item(row, 2).text())
             seqList.append(seq)
-        f = file(self.openPath, 'w')
-        json.dump(seqList, f)
+        f = file(path, 'w')
+        json.dump(('None', seqList), f)
         self.savedFlag = True

@@ -80,6 +80,10 @@ class Polonator(QMainWindow, ui_htPol.Ui_MainWindow):
 #    def graphicsViewMousePress(self, event):    
 #        self.sequenceGraphicsView.held = True    
         self.menuBehavior = MenuBehavior(self)
+        self.abortButton.pressed.connect(self.abort)
+
+    def abort(self):
+        print 'abort'
 
     def proMode(self):
         self.tabWidget_4.insertTab(1, self.tab_10, QString('Maintenence'))

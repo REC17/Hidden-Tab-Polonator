@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>656</width>
-    <height>781</height>
+    <width>659</width>
+    <height>865</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -58,7 +58,7 @@
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>440</y>
+        <y>400</y>
         <width>611</width>
         <height>101</height>
        </rect>
@@ -74,7 +74,7 @@
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>590</y>
+        <y>550</y>
         <width>611</width>
         <height>31</height>
        </rect>
@@ -95,56 +95,11 @@
        </property>
       </item>
      </widget>
-     <widget class="QWidget" name="layoutWidget_3">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>10</y>
-        <width>611</width>
-        <height>71</height>
-       </rect>
-      </property>
-      <layout class="QGridLayout" name="gridLayout_3">
-       <property name="leftMargin">
-        <number>0</number>
-       </property>
-       <property name="bottomMargin">
-        <number>0</number>
-       </property>
-       <property name="horizontalSpacing">
-        <number>6</number>
-       </property>
-       <item row="0" column="0">
-        <widget class="QPushButton" name="abortButton">
-         <property name="font">
-          <font>
-           <pointsize>11</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>Abort All Processes</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0">
-        <widget class="QRadioButton" name="includeHomeAxisRB">
-         <property name="font">
-          <font>
-           <pointsize>10</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>Include Homing Axis</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
      <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
         <x>11</x>
-        <y>80</y>
+        <y>40</y>
         <width>611</width>
         <height>357</height>
        </rect>
@@ -328,7 +283,7 @@
       <property name="geometry">
        <rect>
         <x>11</x>
-        <y>550</y>
+        <y>510</y>
         <width>611</width>
         <height>30</height>
        </rect>
@@ -366,6 +321,24 @@
         </widget>
        </item>
       </layout>
+     </widget>
+     <widget class="QRadioButton" name="includeHomeAxisRB">
+      <property name="geometry">
+       <rect>
+        <x>11</x>
+        <y>13</y>
+        <width>161</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Include Homing Axis</string>
+      </property>
      </widget>
     </widget>
     <widget class="QWidget" name="maestroTab">
@@ -3485,13 +3458,31 @@
      </widget>
     </widget>
    </widget>
+   <widget class="QPushButton" name="abortButton">
+    <property name="geometry">
+     <rect>
+      <x>570</x>
+      <y>720</y>
+      <width>80</width>
+      <height>80</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>11</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>ABORT</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>656</width>
+     <width>659</width>
      <height>29</height>
     </rect>
    </property>
@@ -3511,10 +3502,18 @@
      </property>
      <addaction name="actionDesign_New_Layout"/>
      <addaction name="actionLoad_Layout"/>
+     <addaction name="actionClear_Layout"/>
     </widget>
-    <addaction name="actionSave_Cycle_List"/>
-    <addaction name="actionSave_Cycle_List_As"/>
-    <addaction name="actionLoad_Cycle_List"/>
+    <widget class="QMenu" name="menuCycle_List">
+     <property name="title">
+      <string>Cycle List</string>
+     </property>
+     <addaction name="actionSave_Cycle_List"/>
+     <addaction name="actionSave_Cycle_List_As"/>
+     <addaction name="actionLoad_Cycle_List"/>
+     <addaction name="actionMap_Cycle_List_to_Template"/>
+    </widget>
+    <addaction name="menuCycle_List"/>
     <addaction name="menuSequence_Layout"/>
    </widget>
    <addaction name="menuFile"/>
@@ -3549,6 +3548,16 @@
   <action name="actionLoad_Layout">
    <property name="text">
     <string>Load Layout</string>
+   </property>
+  </action>
+  <action name="actionClear_Layout">
+   <property name="text">
+    <string>Clear Layout</string>
+   </property>
+  </action>
+  <action name="actionMap_Cycle_List_to_Template">
+   <property name="text">
+    <string>Map Cycle List to Layout</string>
    </property>
   </action>
  </widget>

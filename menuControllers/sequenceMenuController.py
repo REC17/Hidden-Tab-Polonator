@@ -39,6 +39,7 @@ _root_dir = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 sys.path.insert(0, _root_dir)
 
 from dialogControllers.tempDialogController import TDController
+from ui.warningDialog import WarningDialog
 
 class SeqMenuController(QWidget):
     def __init__(self, mainWin, parent=None):
@@ -49,7 +50,11 @@ class SeqMenuController(QWidget):
         self.actionLoad_Cycle_List = self.mainWin.actionLoad_Cycle_List
         self.actionDesign_New_Layout = self.mainWin.actionDesign_New_Layout
         self.actionLoad_Layout = self.mainWin.actionLoad_Layout
-        
+
+        self.actionMap_Cycle_List_to_Template = self.mainWin.actionMap_Cycle_List_to_Template
+        self.actionClear_Layout = self.mainWin.actionClear_Layout
+
+        self.openPath = None
         self.seqTab = self.mainWin.seqTab
 
         self.establishConnections()
@@ -58,17 +63,57 @@ class SeqMenuController(QWidget):
         self.actionSave_Cycle_List.triggered.connect(self.saveCycleList)
         self.actionSave_Cycle_List_As.triggered.connect(self.saveCycleListAs)
         self.actionLoad_Cycle_List.triggered.connect(self.loadCycleList)
+        self.actionMap_Cycle_List_to_Template.triggered.connect(self.mapCtoT)        
         self.actionDesign_New_Layout.triggered.connect(self.designNewLayout)
         self.actionLoad_Layout.triggered.connect(self.loadLayout)
+        self.actionClear_Layout.triggered.connect(self.clearLayout)
+
+    def mapCtoT(self):
+        print 'map!'
+
+    def clearLayout(self):
+        for item in self.seqTab.seqScene.items():
+            self.seqTab.seqScene.removeItem(item)
 
     def saveCycleList(self):
-        print 'test pass'
+        if self.openPath == None:
+            self.saveCycleListAs()
+        else:
+            self.saveFile(self.openPath)
 
     def saveCycleListAs(self):
-        print 'test pass'
+        self.openPath = QFileDialog.getSaveFileName(self, \
+                            "Save File As", _root_dir + '/cycleLists/' , \
+                            QString("Schemes (*.cfg)"))
+        try:
+            self.saveFile(self.openPath)
+        except:
+            pass
+
+    def saveFile(self, path):
+        f = file(path, 'w')
+        json.dump((self.seqTab.polonatorCycleListVector, self.seqTab.seqList), f)
+        self.savedFlag = True
 
     def loadCycleList(self):
-        print 'test pass'
+        self.openPath = QFileDialog.getOpenFileName(self, \
+                            "Save File As", _root_dir + '/cycleLists/' , \
+                            QString("Schemes (*.cfg)"))
+        try:
+            f = file(self.openPath, 'r')
+            data = json.load(f)
+            self.seqTab.polonatorCycleListVector = data[0]      
+            self.seqTab.seqList = data[1]
+        except:
+            print 'cycle list load fail'
+
+        self.seqTab.functions.addSequence(self.openPath)
+      #  try:
+     #       
+      #  except:
+      #      print 'sequence layout fail'
+
+        self.seqTab.updateCycleList(False)
 
     def designNewLayout(self):
         designWindow = TDController()
@@ -79,19 +124,7 @@ class SeqMenuController(QWidget):
                             "Open File", _root_dir + '/templateSchemes/' , \
                             QString("Schemes (*.cfg)"))
         try:
-            self.seqTab.addSequence(self.openPath)
+            self.seqTab.functions.addSequence(self.openPath)
         except:
             pass
-
-
-
-
-
-
-
-
-
-
-
-
 
