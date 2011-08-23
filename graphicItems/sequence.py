@@ -33,12 +33,15 @@ from PyQt4.QtGui import *
 from base import Base
 
 class Sequence(QGraphicsItem):
-    def __init__(self, mainWin, sequence, position, minusPrimer, plusPrimer, parent = None):
+    def __init__(self, seqTab, sequence, position, minusPrimer, plusPrimer, parent = None):
         super(Sequence, self).__init__()
 
-        self.mainWin = mainWin
-        self.baseClassL = self.mainWin.baseClassL
-        self.sortBaseL = self.mainWin.sortBaseL
+
+        self.seqTab = seqTab
+        self.baseClassL = self.seqTab.baseClassL
+        self.sortBaseL = self.seqTab.sortBaseL
+
+        print 'Id from Sequence item: ' + str(id(self.baseClassL))
 
 
         self.fill = QColor(100, 204, 150)

@@ -73,36 +73,41 @@ class SeqMenuController(QWidget):
         #to the template
         print self.seqTab.functions.executeValidation()
         if self.seqTab.functions.executeValidation():
-            try:
-                print 'validation returned true!'
-                primerList = []
-                baseDictionary = {}
+            #try:
+            print 'validation returned true!'
+            primerList = []
+            baseDictionary = {}
 
-                for item in self.seqTab.seqScene.items():
-                    if item.__class__.__name__ == 'Primer':
-                        primerList.append(item)
-                    if item.__class__.__name__ == 'Base'\
-                        and item.primer != None:
-                        item.determinePosition()
-                        if item.parentItem().pos().x() > item.primer.pos().x():
-                            cycle = item.primer.primerLetter + 'P' + str(item.position)
-                            baseDictionary.update({cycle : item})
-                        else:
-                            cycle = item.primer.primerLetter + 'M' + str(item.position)
-                            baseDictionary.update({cycle : item})
+            for item in self.seqTab.seqScene.items():
+                if item.__class__.__name__ == 'Primer':
+                    primerList.append(item)
+                if item.__class__.__name__ == 'Base'\
+                    and item.primer != None:
+                    item.determinePosition()
+                    if item.parentItem().pos().x() > item.primer.pos().x():
+                        cycle = item.primer.primerLetter + 'P' + str(item.position)
+                        baseDictionary.update({cycle : item})
+                    else:
+                        cycle = item.primer.primerLetter + 'M' + str(item.position)
+                        baseDictionary.update({cycle : item})
 
-                for i in range(self.seqTab.cycleTable.rowCount()):
-                    if self.seqTab.cycleTable.item(i,0).text() != '':
-                        cycle = self.seqTab.cycleTable.item(i,0).text() + \
-                                self.seqTab.cycleTable.item(i,1).text() + \
-                                self.seqTab.cycleTable.item(i,2).text()
-                        baseDictionary[str(cycle)].baseSelect()
+            self.seqTab.baseClassL = []
+            for i in range(self.seqTab.cycleTable.rowCount()):
+                if self.seqTab.cycleTable.item(i,0).text() != '':
+                    cycle = self.seqTab.cycleTable.item(i,0).text() + \
+                            self.seqTab.cycleTable.item(i,1).text() + \
+                            self.seqTab.cycleTable.item(i,2).text()
+                    self.seqTab.baseClassL.append(baseDictionary[str(cycle)])
+            for base in self.seqTab.baseClassL:
+                if self.seqTab.baseClassL.count(base) > 1:
+                    self.seqTab.baseClassL.remove(base)
+                base.baseSelect()
 
-            except:
-                self.warningDialog = WarningDialog('Detected incompatibility' +\
-                                    ' between cycle list and template', None)
-                self.warningDialog.cancelButton.hide()             
-                self.warningDialog.show()
+            #except:
+            #    self.warningDialog = WarningDialog('Detected incompatibility' +\
+            #                        ' between cycle list and template', None)
+            #    self.warningDialog.cancelButton.hide()             
+             #   self.warningDialog.show()
 
     def clearLayout(self):
         for item in self.seqTab.seqScene.items():
