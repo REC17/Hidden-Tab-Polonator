@@ -48,7 +48,7 @@
      </font>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>3</number>
     </property>
     <widget class="QWidget" name="sequenceTab">
      <attribute name="title">
@@ -3516,8 +3516,16 @@
     <addaction name="menuCycle_List"/>
     <addaction name="menuSequence_Layout"/>
    </widget>
+   <widget class="QMenu" name="menuTools">
+    <property name="title">
+     <string>Tools</string>
+    </property>
+    <addaction name="actionBowtie"/>
+    <addaction name="actionANOVA_R"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuSequence"/>
+   <addaction name="menuTools"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionPro_Mode">
@@ -3558,6 +3566,16 @@
   <action name="actionMap_Cycle_List_to_Template">
    <property name="text">
     <string>Map Cycle List to Layout</string>
+   </property>
+  </action>
+  <action name="actionBowtie">
+   <property name="text">
+    <string>Bowtie</string>
+   </property>
+  </action>
+  <action name="actionANOVA_R">
+   <property name="text">
+    <string>ANOVA (R)</string>
    </property>
   </action>
  </widget>

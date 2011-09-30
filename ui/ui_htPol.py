@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'htPol.ui'
 #
-# Created: Mon Aug 22 15:27:49 2011
+# Created: Fri Aug 26 10:01:13 2011
 #      by: PyQt4 UI code generator 4.8.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -1424,6 +1424,8 @@ class Ui_MainWindow(object):
         self.menuSequence_Layout.setObjectName(_fromUtf8("menuSequence_Layout"))
         self.menuCycle_List = QtGui.QMenu(self.menuSequence)
         self.menuCycle_List.setObjectName(_fromUtf8("menuCycle_List"))
+        self.menuTools = QtGui.QMenu(self.menubar)
+        self.menuTools.setObjectName(_fromUtf8("menuTools"))
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtGui.QStatusBar(MainWindow)
         self.statusbar.setObjectName(_fromUtf8("statusbar"))
@@ -1444,6 +1446,10 @@ class Ui_MainWindow(object):
         self.actionClear_Layout.setObjectName(_fromUtf8("actionClear_Layout"))
         self.actionMap_Cycle_List_to_Template = QtGui.QAction(MainWindow)
         self.actionMap_Cycle_List_to_Template.setObjectName(_fromUtf8("actionMap_Cycle_List_to_Template"))
+        self.actionBowtie = QtGui.QAction(MainWindow)
+        self.actionBowtie.setObjectName(_fromUtf8("actionBowtie"))
+        self.actionANOVA_R = QtGui.QAction(MainWindow)
+        self.actionANOVA_R.setObjectName(_fromUtf8("actionANOVA_R"))
         self.menuFile.addAction(self.actionPro_Mode)
         self.menuSequence_Layout.addAction(self.actionDesign_New_Layout)
         self.menuSequence_Layout.addAction(self.actionLoad_Layout)
@@ -1454,8 +1460,11 @@ class Ui_MainWindow(object):
         self.menuCycle_List.addAction(self.actionMap_Cycle_List_to_Template)
         self.menuSequence.addAction(self.menuCycle_List.menuAction())
         self.menuSequence.addAction(self.menuSequence_Layout.menuAction())
+        self.menuTools.addAction(self.actionBowtie)
+        self.menuTools.addAction(self.actionANOVA_R)
         self.menubar.addAction(self.menuFile.menuAction())
         self.menubar.addAction(self.menuSequence.menuAction())
+        self.menubar.addAction(self.menuTools.menuAction())
 
         self.retranslateUi(MainWindow)
         self.mainTabWidget.setCurrentIndex(0)
@@ -1768,6 +1777,7 @@ class Ui_MainWindow(object):
         self.menuSequence.setTitle(QtGui.QApplication.translate("MainWindow", "Sequence", None, QtGui.QApplication.UnicodeUTF8))
         self.menuSequence_Layout.setTitle(QtGui.QApplication.translate("MainWindow", "Sequence Layout", None, QtGui.QApplication.UnicodeUTF8))
         self.menuCycle_List.setTitle(QtGui.QApplication.translate("MainWindow", "Cycle List", None, QtGui.QApplication.UnicodeUTF8))
+        self.menuTools.setTitle(QtGui.QApplication.translate("MainWindow", "Tools", None, QtGui.QApplication.UnicodeUTF8))
         self.actionPro_Mode.setText(QtGui.QApplication.translate("MainWindow", "Pro Mode", None, QtGui.QApplication.UnicodeUTF8))
         self.actionLoad_Cycle_List.setText(QtGui.QApplication.translate("MainWindow", "Load Cycle List", None, QtGui.QApplication.UnicodeUTF8))
         self.actionSave_Cycle_List.setText(QtGui.QApplication.translate("MainWindow", "Save Cycle List", None, QtGui.QApplication.UnicodeUTF8))
@@ -1776,4 +1786,6 @@ class Ui_MainWindow(object):
         self.actionLoad_Layout.setText(QtGui.QApplication.translate("MainWindow", "Load Layout", None, QtGui.QApplication.UnicodeUTF8))
         self.actionClear_Layout.setText(QtGui.QApplication.translate("MainWindow", "Clear Layout", None, QtGui.QApplication.UnicodeUTF8))
         self.actionMap_Cycle_List_to_Template.setText(QtGui.QApplication.translate("MainWindow", "Map Cycle List to Layout", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionBowtie.setText(QtGui.QApplication.translate("MainWindow", "Bowtie", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionANOVA_R.setText(QtGui.QApplication.translate("MainWindow", "ANOVA (R)", None, QtGui.QApplication.UnicodeUTF8))
 

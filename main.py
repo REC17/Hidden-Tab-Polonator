@@ -1,4 +1,3 @@
-# The MIT License
 #
 # Copyright (c) 2011 Wyss Institute at Harvard University
 #
@@ -34,17 +33,23 @@ import math
 import json
 import os
 
+from styles import styleSheet
 from ui import ui_htPol
 from tabControllers.sequenceTab import seqTab
 from tabControllers.maestroTab import maestroTab
 from tabControllers.chemistryTab import chemTab
 from tabControllers.imagingTab import imgTab
 from menuControllers.menuBehavior import MenuBehavior
+from menuControllers.toolMenuController import ToolMenuController
 
 class Polonator(QMainWindow, ui_htPol.Ui_MainWindow):
     def __init__(self, parent=None):
         super(Polonator, self).__init__(parent)
+
         self.setupUi(self)
+  #      self.setStyleSheet('QMainWindow{background-color: #1a191f }')
+ #       self.menubar.setStyleSheet('QMenuBar{background-color: #35352f}')
+
         columnWidth = self.cycleTable.width()/3
         for i in range(3):
             self.cycleTable.setColumnWidth(i, columnWidth - 15)
@@ -80,6 +85,7 @@ class Polonator(QMainWindow, ui_htPol.Ui_MainWindow):
 #    def graphicsViewMousePress(self, event):    
 #        self.sequenceGraphicsView.held = True    
         self.menuBehavior = MenuBehavior(self)
+        self.toolMenuController = ToolMenuController(self)
         self.abortButton.pressed.connect(self.abort)
 
     def abort(self):
